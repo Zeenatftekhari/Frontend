@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase.config";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAKi8nImejgwaf6jEh0gddUjahw09ShCXg",
   authDomain: "weeklygroupby.firebaseapp.com",
@@ -21,11 +22,7 @@ export default function Login() {
   const [mobileNumber, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    // Initialize reCAPTCHA when the component mounts
-    onCaptchVerify();
-  }, []);
-  function onCaptchVerify() {
+  const onCaptchVerify = () => {
     try {
       if (!window.recaptchaVerifier) {
         window.recaptchaVerifier = new RecaptchaVerifier(
@@ -34,37 +31,41 @@ export default function Login() {
           {
             size: "invisible",
             callback: (response) => {
+              console.log("reCAPTCHA callback triggered:", response);
               onSignup();
             },
-            "expired-callback": () => {},
+            "expired-callback": () => {
+              console.log("reCAPTCHA expired, please retry.");
+            },
           }
         );
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error verifying reCAPTCHA:", error);
     }
-  }
+  };
 
-  function onSignup() {
-    onCaptchVerify();
+  const onSignup = async () => {
+    try {
+      onCaptchVerify();
+      const formattedPhoneNumber = "+" + mobileNumber;
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        formattedPhoneNumber,
+        appVerifier
+      );
+      window.confirmationResult = confirmationResult;
+      navigate("/Otp");
+    } catch (error) {
+      console.log("Error signing in with phone number:", error);
+    }
+  };
 
-    const formatPh = "+" + mobileNumber;
-    const appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(auth, formatPh, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        // You can now ask the user to input the OTP and then call confirmationResult.confirm(otp) to verify it
-      })
-      .catch((error) => {
-        console.error("Error sending OTP:", error);
-      });
-  }
-
-  function handleFormSubmit(e) {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    // onSignup();
-    navigate("/Otp");
-  }
+    onSignup();
+  };
 
   const buttonStyle = {
     width: "343px",
@@ -227,45 +228,50 @@ export default function Login() {
   };
 
   return (
-    <div style={formContainerStyle}>
-      <div style={rectangleStyle}></div>
-      <div style={circleStyle}>{circleSvg}</div>
-      <div style={topRectangleStyle}></div>
-      <div style={titleStyle}>Hello</div>
-      <div style={subtitleStyle}>UserName</div>
-      <div style={subtitleStyle1}>Enter Your Phone Number & Email ID</div>
-      <div style={descriptionStyle}>
-        We Will Send You the <span style={digitStyle}>4 Digit</span>{" "}
-        Verification Code
+    <>
+      <div style={formContainerStyle}>
+        <div style={rectangleStyle}></div>
+        <div style={circleStyle}>{circleSvg}</div>
+        <div style={topRectangleStyle}></div>
+        <div style={titleStyle}>Hello</div>
+        <div style={subtitleStyle}>UserName</div>
+        <div style={subtitleStyle1}>Enter Your Phone Number & Email ID</div>
+        <div style={descriptionStyle}>
+          We Will Send You the <span style={digitStyle}>4 Digit</span>{" "}
+          Verification Code
+        </div>
+        <form onSubmit={handleFormSubmit}>
+          <div className="mb-3" style={inputLayoutStyle}>
+            <input
+              className="form-control"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+              id="ph"
+              placeholder="+91"
+              style={inputStyle}
+            />
+          </div>
+          <div
+            className="mb-3"
+            style={{ ...inputLayoutStyle, marginTop: "0px" }}
+          >
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id="email"
+              placeholder="Email ID"
+              style={inputStyle}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary" style={buttonStyle}>
+            <span style={{ marginRight: "5px" }}>Generate OTP</span>
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        </form>
       </div>
-      <form onSubmit={handleFormSubmit}>
-        <div className="mb-3" style={inputLayoutStyle}>
-          <input
-            className="form-control"
-            value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
-            id="ph"
-            placeholder="+91"
-            style={inputStyle}
-          />
-        </div>
-        <div className="mb-3" style={{ ...inputLayoutStyle, marginTop: "0px" }}>
-          <input
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            id="email"
-            placeholder="Email ID"
-            style={inputStyle}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary" style={buttonStyle}>
-          <span style={{ marginRight: "5px" }}>Generate OTP</span>
-          <FontAwesomeIcon icon={faArrowRight} />
-        </button>
-        <div id="recaptcha-container"></div>
-      </form>
-    </div>
+      <div id="recaptcha-container"></div>
+    </>
   );
 }

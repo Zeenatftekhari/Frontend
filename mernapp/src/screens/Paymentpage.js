@@ -1,11 +1,16 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams,useLocation } from "react-router-dom";
+//import axios from 'axios';
 
-export default function Payment1() {
+export default function Payment() {
   const { name } = useParams();
+  console.log(name, useParams(), "params");
   const navigate = useNavigate();
   const { quantity } = useParams();
-
+  console.log(useParams());
+  console.log(quantity, "fetched");
+  const location = useLocation();
+  console.log(location,"error");
   const calculateTotalAmount = () => {
     const tokenAmountPerQuantity = 5; // Adjust this value as needed
 
@@ -13,20 +18,22 @@ export default function Payment1() {
     const parsedQuantity = parseInt(quantity, 10);
 
     // Check if parsedQuantity is a valid number
-    if (!isNaN(parsedQuantity)) {
+    if (location.state>1) {
       // Calculate the total payment amount by multiplying token amount by quantity
-      return tokenAmountPerQuantity * parsedQuantity;
+      return tokenAmountPerQuantity * location.state;
     } else {
       // Handle the case where quantity is not a valid number
       return 5; // Or any default value you prefer
     }
   };
+
   const handleParticipateClick = () => {
     let encodedName = encodeURIComponent(name);
-    navigate(`/Orderdetails/${encodedName}`);
+    navigate(`/Bidding/${encodedName}`);
   };
 
   const isMobile = window.innerWidth <= 480; // Adjust breakpoint as needed
+
   /*function DiscountInfo() {
       const [discount, setDiscount] = useState(null);
   
@@ -46,6 +53,11 @@ export default function Payment1() {
               alert(res.data.error);
           }
       }*/
+
+  const handleGoBackClick = () => {
+    let encodedName = encodeURIComponent(name);
+    navigate(`/Productdetail/${encodedName}`);
+  };
 
   const buttonStyle = {
     width: isMobile ? "100%" : "443px",
@@ -205,19 +217,6 @@ export default function Payment1() {
     marginTop: "4px",
     marginBottom: isMobile ? "10px" : "20px", // Adjusted for mobile
   };
-
-  const descriptionStyle2 = {
-    color: "#3E3E3E",
-    fontFamily: "Inter",
-    fontSize: isMobile ? "12px" : "12px",
-    fontStyle: "normal",
-    fontWeight: 600,
-    lineHeight: isMobile ? "15px" : "15px",
-    textAlign: "center",
-    marginTop: isMobile ? "5px" : "9px",
-    marginBottom: isMobile ? "10px" : "18px",
-  };
-
   const homeIndicatorStyle = {
     width: "134px",
     height: "5px",
@@ -234,30 +233,23 @@ export default function Payment1() {
     marginLeft: isMobile ? "0" : "28px", // Adjusted for mobile
     marginRight: isMobile ? "0" : "28px", // Adjusted for mobile
   };
-  const handleGoBackClick = () => {
-    let encodedName = encodeURIComponent(name);
-    navigate(`/OrderPlacement/${encodedName}`);
-  };
 
   return (
     <div style={formContainerStyle}>
       <div style={rectangleStyle}>
         <img src="/Path 46026.png" alt="Path 46026" style={pathImageStyle} />
         <div style={titleContainerStyle}>
-          <div>
-            {" "}
-            <button
-              type="button"
-              style={{ border: "none", background: "none", cursor: "pointer" }}
-              onClick={handleGoBackClick}
-            >
-              <img
-                src="/leftarrow.png"
-                alt="Left Arrow"
-                style={arrowImageStyle}
-              />
-            </button>
-          </div>
+          <button
+            type="button"
+            style={{ border: "none", background: "none", cursor: "pointer" }}
+            onClick={handleGoBackClick}
+          >
+            <img
+              src="/leftarrow.png"
+              alt="Left Arrow"
+              style={arrowImageStyle}
+            />
+          </button>
           <div style={titleStyle}>Payment Detail</div>
         </div>
       </div>
@@ -294,3 +286,4 @@ export default function Payment1() {
     </div>
   );
 }
+//}

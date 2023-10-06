@@ -283,7 +283,7 @@ export default function OrderPlacement() {
         <div style={descriptionStyle1}> <p> MRP:  {productToShow.options[0]?.MRP}</p>
       <p style={descriptionStyle3}>final Price :</p>
       <p style={descriptionStyle3}> Number of Units: </p>
-      <p style={descriptionStyle3}> Total Orders </p>
+      <p style={descriptionStyle3}> Order Total :{} </p>
       <p style={descriptionStyle3}> Token Amount Paid: </p>
       <p style={descriptionStyle3}> Balance: </p>
       <p style={descriptionStyle10}>Total Amount</p> 

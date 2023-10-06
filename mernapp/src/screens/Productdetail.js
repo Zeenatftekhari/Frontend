@@ -47,7 +47,8 @@ export default function Productdetails() {
   }
   const handleParticipateClick = () => {
     let encodedName = encodeURIComponent(name);
-    navigate(`/Paymentpage/${encodedName}?quantity=${quantity}`);
+    navigate(`/Paymentpage/${encodedName}?quantity=${quantity}`,{state:quantity});
+    console.log("cannot fetch quantity",quantity)
   };
 
   const isMobile = window.innerWidth <= 480;

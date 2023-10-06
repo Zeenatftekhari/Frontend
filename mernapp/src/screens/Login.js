@@ -237,7 +237,7 @@ export default function Login() {
         <div style={subtitleStyle}>UserName</div>
         <div style={subtitleStyle1}>Enter Your Phone Number & Email ID</div>
         <div style={descriptionStyle}>
-          We Will Send You the <span style={digitStyle}>4 Digit</span>{" "}
+          We Will Send You the <span style={digitStyle}>6 Digit</span>{" "}
           Verification Code
         </div>
         <form onSubmit={handleFormSubmit}>

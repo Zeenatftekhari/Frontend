@@ -50,7 +50,7 @@ export default function Bidding() {
   };
 
   const handleParticipateClick1 = () => {
-    navigate("/Home");
+    navigate(`/Cart/${name}`);
   };
   const handleGoBackClick = () => {
     let encodedName = encodeURIComponent(name);

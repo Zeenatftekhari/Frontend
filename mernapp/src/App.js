@@ -40,7 +40,7 @@ function App() {
             <Route exact path="/Biddingpopup/:name" element={<Biddingpopup />} />
             <Route exact path="/OrderPlacement/:name" element={<OrderPlacement />} />
             <Route exact path="/Profile" element={<Profile />} />
-            <Route exact path="/Cart" element={<Cart />} />
+            <Route exact path="/Cart/:name" element={<Cart />} />
           </Routes>
         </CartProvider>
       </div>

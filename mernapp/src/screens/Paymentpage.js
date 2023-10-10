@@ -1,37 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams,useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { sendUserParticipatedData } from "../services/saveParticipate/saveParticipateData";
+import { getUserByNumber } from "../services/getUser/getuserinfo";
 //import axios from 'axios';
 
 export default function Payment() {
   const { name } = useParams();
-  console.log(name, useParams(), "params");
   const navigate = useNavigate();
-  const { quantity } = useParams();
-  console.log(useParams());
-  console.log(quantity, "fetched");
   const location = useLocation();
-  console.log(location,"error");
+  const [userInfo, setUserInfo] = useState([]);
+
+  let userLoginInfo = JSON.parse(localStorage.getItem("userInfo2"));
+  let mobileNumber = userLoginInfo?.mobileNumber;
+
   const calculateTotalAmount = () => {
-    const tokenAmountPerQuantity = 5; // Adjust this value as needed
-
-    // Parse the quantity to ensure it's a number
-    const parsedQuantity = parseInt(quantity, 10);
-
-    // Check if parsedQuantity is a valid number
-    if (location.state>1) {
-      // Calculate the total payment amount by multiplying token amount by quantity
-      return tokenAmountPerQuantity * location.state;
+    const tokenAmountPerQuantity = 5;
+    if (location?.state?.quantity > 1) {
+      return tokenAmountPerQuantity * location?.state?.quantity;
     } else {
-      // Handle the case where quantity is not a valid number
-      return 5; // Or any default value you prefer
+      return tokenAmountPerQuantity;
     }
   };
 
   const handleParticipateClick = () => {
     let encodedName = encodeURIComponent(name);
-    navigate(`/Bidding/${encodedName}`);
+    navigate(`/Bidding/${encodedName}`, { state: location });
+    createPayLoadAndCallApi();
   };
 
+  const createPayLoadAndCallApi = async () => {
+    let body = {
+      productId: location.state?.productToShow._id,
+      quantity: location.state?.quantity,
+    };
+    let userId = userInfo[0]?._id;
+    try {
+      const { data } = await sendUserParticipatedData(userId, body);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const isMobile = window.innerWidth <= 480; // Adjust breakpoint as needed
 
   /*function DiscountInfo() {
@@ -54,9 +63,26 @@ export default function Payment() {
           }
       }*/
 
+  const getUserDetailsByNumber = async () => {
+    try {
+      const { data, error } = await getUserByNumber(mobileNumber);
+      setUserInfo(data?.userInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetailsByNumber();
+  }, []);
+  console.log(userInfo, "userInfo");
   const handleGoBackClick = () => {
     let encodedName = encodeURIComponent(name);
-    navigate(`/Productdetail/${encodedName}`);
+    navigate(`/Productdetail/${encodedName}`, {
+      // state: location.state.productToShow._id,
+    });
+    localStorage.setItem("productId", location.state?.productToShow._id);
+    console.log("backButton click");
   };
 
   const buttonStyle = {

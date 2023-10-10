@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Stepper from "react-stepper-horizontal";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+// import Stepper from "react-stepper-horizontal";
+import CustomizedSteppers from "../components/atoms/CustomStepper";
+import { Box } from "@mui/material";
+import { getBiddingDetailsOfProduct } from "../services/getBiddingDetails.js/getBiddingDetails";
 export default function Productdetails() {
   const { name } = useParams();
   const navigate = useNavigate();
   const [productToShow, setProductToShow] = useState(null);
   const [quantity, setQuantity] = useState(1); // Initialize quantity to 1
+  const location = useLocation();
+  const [biddingCount, setBiddingCount] = useState(0);
 
   useEffect(() => {
     async function fetchGroceryItem() {
@@ -18,7 +23,7 @@ export default function Productdetails() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ name }), // Replace with the data you want to send in the request body
-          }
+          } 
         );
 
         if (!response.ok) {
@@ -27,7 +32,6 @@ export default function Productdetails() {
 
         const data = await response.json();
         const product = data.grocery_items.find((item) => item.name === name);
-
         if (product) {
           setProductToShow(product);
         } else {
@@ -38,17 +42,35 @@ export default function Productdetails() {
         console.error("Error fetching data:", error);
       }
     }
-
     fetchGroceryItem();
   }, [name]);
+
+  useEffect(() => {
+    getBiddingDetailsCallBack();
+  }, []);
+  const getBiddingDetailsCallBack = () => {
+    getBiddingDetails();
+  };
+  const getBiddingDetails = async () => {
+    try {
+      const { data } = await getBiddingDetailsOfProduct(location?.state);
+      setBiddingCount(data?.productCount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!productToShow) {
     return <div>Loading...</div>;
   }
   const handleParticipateClick = () => {
     let encodedName = encodeURIComponent(name);
-    navigate(`/Paymentpage/${encodedName}?quantity=${quantity}`,{state:quantity});
-    console.log("cannot fetch quantity",quantity)
+    navigate(`/Paymentpage/${encodedName}?quantity=${quantity}`, {
+      state: {
+        quantity,
+        productToShow,
+      },
+    });
   };
 
   const isMobile = window.innerWidth <= 480;
@@ -570,7 +592,10 @@ export default function Productdetails() {
               {productToShow.options[5]?.Next_Price_drops_at} 220g
             </div>
           </div>
-          <img src="/bidding.png" alt="bidding" style={biddingstyle} />
+          <Box sm={{ width: "400px" }}>
+            <CustomizedSteppers count={biddingCount} />
+          </Box>
+          {/* <img src="/bidding.png" alt="bidding" style={biddingstyle} /> */}
         </div>
         <div style={descriptionStyle}>
           You will be charged the final price at the end of the deal

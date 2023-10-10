@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getAuth,
   signInWithPhoneNumber,
@@ -11,22 +11,14 @@ import {
 const Otp = () => {
   const navigate = useNavigate();
   const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
-  const inputRefs = [
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-  ];
-  const focusNextInput = (index) => {
-    console.log(index, "nextbvdsgb");
-    if (index < 5) {
-      console.log(55);
-      console.log(inputRefs[index + 1].current.focus());
-      inputRefs[index + 1].current.focus();
-    }
-  };
+  const [activeOtpIndex, setActiveOtpIndex] = useState(0);
+  const location = useLocation();
+  console.log(location);
+  const inputRefs = useRef(null);
+  useEffect(() => {
+    inputRefs.current.focus();
+    return () => {};
+  }, [activeOtpIndex]);
 
   const containerWidth = 361;
   const containerHeight = 812;
@@ -189,6 +181,8 @@ const Otp = () => {
           const user = result.user;
           alert("OTP Verified");
           navigate("/home");
+          localStorage.setItem("userInfo", location.state);
+          localStorage.setItem("userInfo2", JSON.stringify(location.state));
         })
         .catch((error) => {
           // User couldn't sign in (bad verification code?)
@@ -199,53 +193,51 @@ const Otp = () => {
     }
   };
 
-  const OtpInput = ({ index, focusNext }) => {
-    const handleChange = (e) => {
-      const value = e.target.value;
-      console.log(value, index);
-      if (value.match(/^\d*$/)) {
-        const newOtpValues = [...otpValues];
-        newOtpValues[index] = value;
-        setOtpValues(newOtpValues);
-        // if (value !== "" && index < 3) {
-        //   inputRefs[index + 1].current.focus();
-        // }
-        // if (value !== "" && index < 5) {
-        // Focus on the next input field when a digit is entered
-        focusNext(index);
-        // }
+  // const OtpInput = ({ index }) => {
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+    console.log(value);
+    if (value.match(/^\d*$/)) {
+      const newOtpValues = [...otpValues];
+      newOtpValues[index] = value;
+      setOtpValues(newOtpValues);
+      if (index === 5) {
+        setActiveOtpIndex(index);
+      } else {
+        setActiveOtpIndex(index + 1);
       }
-    };
-
-    const handleKeyDown = (e) => {
-      if (e.key === "Backspace" && otpValues[index] === "") {
-        if (index > 0) {
-          inputRefs[index - 1].current.focus();
-        }
-      }
-    };
-
-    return (
-      <input
-        ref={inputRefs[index]}
-        type="text"
-        value={otpValues[index]}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        maxLength={1}
-        style={{
-          width: "50px",
-          height: "50px",
-          flexShrink: 0,
-          borderRadius: "9.5px",
-          border: "1px solid #C47ECC",
-          textAlign: "center",
-          fontSize: "24px",
-          margin: "0 5px",
-        }}
-      />
-    );
+    }
   };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && otpValues[index] === "") {
+      if (index > 0) {
+        inputRefs.current.focus();
+      }
+    }
+  };
+
+  // return (
+  //   <input
+  //     ref={index === activeOtpIndex && index <= 5 ? inputRefs : null}
+  //     type="text"
+  //     value={otpValues[index]}
+  //     onChange={handleChange}
+  //     onKeyDown={handleKeyDown}
+  //     maxLength={1}
+  //     style={{
+  //       width: "50px",
+  //       height: "50px",
+  //       flexShrink: 0,
+  //       borderRadius: "9.5px",
+  //       border: "1px solid #C47ECC",
+  //       textAlign: "center",
+  //       fontSize: "24px",
+  //       margin: "0 5px",
+  //     }}
+  //   />
+  // );
+  // };
 
   const ResendButton = () => {
     const handleResendClick = () => {
@@ -284,11 +276,24 @@ const Otp = () => {
           }}
         >
           {[...Array(6)].map((_, index) => (
-            <OtpInput
+            <input
+              ref={index === activeOtpIndex && index <= 5 ? inputRefs : null}
+              type="text"
+              value={otpValues[index]}
+              onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              maxLength={1}
               key={index}
-              index={index}
-              focusNext={focusNextInput}
-              ref={inputRefs[index]}
+              style={{
+                width: "50px",
+                height: "50px",
+                flexShrink: 0,
+                borderRadius: "9.5px",
+                border: "1px solid #C47ECC",
+                textAlign: "center",
+                fontSize: "24px",
+                margin: "0 5px",
+              }}
             />
           ))}
         </div>

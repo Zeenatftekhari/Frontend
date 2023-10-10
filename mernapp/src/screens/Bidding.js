@@ -1,10 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getBiddingDetailsOfProduct } from "../services/getBiddingDetails.js/getBiddingDetails";
+import { Box } from "@mui/material";
+import CustomizedSteppers from "../components/atoms/CustomStepper";
 export default function Bidding() {
   const { name } = useParams();
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const [biddingCount, setBiddingCount] = useState(0);
+  const productId = state?.state?.productToShow?._id;
+  console.log(state);
 
   const [productToShow, setProductToShow] = useState(null);
+
+  useEffect(() => {
+    getBiddingDetailsCallBack();
+  }, []);
+  const getBiddingDetailsCallBack = () => {
+    getBiddingDetails();
+  };
+  const getBiddingDetails = async () => {
+    try {
+      const { data } = await getBiddingDetailsOfProduct(productId);
+      setBiddingCount(data?.productCount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     async function fetchGroceryItem() {
@@ -26,7 +48,6 @@ export default function Bidding() {
 
         const data = await response.json();
         const product = data.grocery_items.find((item) => item.name === name);
-
         if (product) {
           setProductToShow(product);
         } else {
@@ -476,7 +497,9 @@ export default function Bidding() {
             Next price drops at:{productToShow.options[5]?.Next_Price_drops_at}
           </div>
         </div>
-        <img src="/bidding.png" alt="bidding" style={biddingstyle} />
+        <Box sx={{ width: "400px", mt: "4.5em", mx: "2em" }}>
+          <CustomizedSteppers count={biddingCount} />
+        </Box>
       </div>
       <div style={descriptionStyle}>
         You will be charged the final price at the end of the deal

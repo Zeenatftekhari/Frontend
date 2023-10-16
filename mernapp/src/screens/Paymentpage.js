@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { sendUserParticipatedData } from "../services/saveParticipate/saveParticipateData";
 import { getUserByNumber } from "../services/getUser/getuserinfo";
+import Header from "../components/atoms/header";
 //import axios from 'axios';
 
 export default function Payment() {
@@ -21,10 +22,25 @@ export default function Payment() {
       return tokenAmountPerQuantity;
     }
   };
-
+  let prodId1 = localStorage.getItem("productId")
+  console.log(prodId1)
+  let prodId;
+  if (prodId1 === undefined) {
+    prodId = ""
+  } else {
+    prodId = JSON.parse(prodId1)
+  }
   const handleParticipateClick = () => {
     let encodedName = encodeURIComponent(name);
     navigate(`/Bidding/${encodedName}`, { state: location });
+    if (prodId === location.state?.productToShow._id) {
+      localStorage.setItem("productId", JSON.stringify(prodId))
+      localStorage.setItem("productQty", JSON.stringify(location.state?.quantity))
+    } else {
+      localStorage.removeItem("productId")
+      localStorage.setItem("productId", JSON.stringify(location.state?.productToShow._id))
+      localStorage.setItem("productQty", JSON.stringify(location.state?.quantity))
+    }
     createPayLoadAndCallApi();
   };
 
@@ -75,14 +91,11 @@ export default function Payment() {
   useEffect(() => {
     getUserDetailsByNumber();
   }, []);
-  console.log(userInfo, "userInfo");
   const handleGoBackClick = () => {
     let encodedName = encodeURIComponent(name);
     navigate(`/Productdetail/${encodedName}`, {
       // state: location.state.productToShow._id,
     });
-    localStorage.setItem("productId", location.state?.productToShow._id);
-    console.log("backButton click");
   };
 
   const buttonStyle = {
@@ -123,16 +136,16 @@ export default function Payment() {
     lineHeight: "normal",
   };
 
-  const pathImageStyle = {
-    width: isMobile ? "50px" : "104px",
-    height: "4px",
-    flexShrink: 0,
-    fill: "#D8D8D8",
-    marginTop: "11.65px",
-    marginBottom: "25.35px",
-    marginLeft: "50px", // Adjusted for mobile
-    marginRight: "50px", // Adjusted for mobile
-  };
+  // const pathImageStyle = {
+  //   width: isMobile ? "50px" : "104px",
+  //   height: "4px",
+  //   flexShrink: 0,
+  //   fill: "#D8D8D8",
+  //   marginTop: "11.65px",
+  //   marginBottom: "25.35px",
+  //   marginLeft: "50px", // Adjusted for mobile
+  //   marginRight: "50px", // Adjusted for mobile
+  // };
 
   const formContainerStyle = {
     display: "flex",
@@ -142,51 +155,57 @@ export default function Payment() {
     minHeight: "10vh",
     position: "absolute",
     padding: isMobile ? "10px" : "0", // Added padding for mobile
+    // minHeight: "100vh",
+    // display: "flex",
+    // flexDirection: "column",
+    // alignItems: "center",
+    // justifyContent: "center !important",
+    // position: "absolute",
   };
 
-  const rectangleStyle = {
-    width: isMobile ? "100%" : "475px",
-    height: "112px",
-    background: "#F0F0F0",
-    position: "relative",
-    marginBottom: "20px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  };
+  // const rectangleStyle = {
+  //   width: isMobile ? "100%" : "475px",
+  //   height: "112px",
+  //   background: "#F0F0F0",
+  //   position: "relative",
+  //   marginBottom: "20px",
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // };
 
-  const titleContainerStyle = {
-    display: "flex",
-    alignItems: "center",
-    marginTop: isMobile ? "20px" : "41.13px", // Adjusted for mobile
-    marginBottom: isMobile ? "20px" : "30px", // Adjusted for mobile
-    marginLeft: isMobile ? "0" : "16px", // Adjusted for mobile
-    marginRight: isMobile ? "0" : "76.68px", // Adjusted for mobile
-  };
+  // const titleContainerStyle = {
+  //   display: "flex",
+  //   alignItems: "center",
+  //   marginTop: isMobile ? "20px" : "41.13px", // Adjusted for mobile
+  //   marginBottom: isMobile ? "20px" : "30px", // Adjusted for mobile
+  //   marginLeft: isMobile ? "0" : "16px", // Adjusted for mobile
+  //   marginRight: isMobile ? "0" : "76.68px", // Adjusted for mobile
+  // };
 
-  const arrowImageStyle = {
-    width: "24px",
-    height: "24px",
-    flexShrink: 0,
-    marginTop: isMobile ? "10px" : "41.13px", // Adjusted for mobile
-    marginBottom: isMobile ? "10px" : "30px", // Adjusted for mobile
-    marginLeft: isMobile ? "-40px" : "16px", // Adjusted for mobile
-    marginRight: isMobile ? "60px" : "44.68px", // Adjusted for mobile
-  };
+  // const arrowImageStyle = {
+  //   width: "24px",
+  //   height: "24px",
+  //   flexShrink: 0,
+  //   marginTop: isMobile ? "10px" : "41.13px", // Adjusted for mobile
+  //   marginBottom: isMobile ? "10px" : "30px", // Adjusted for mobile
+  //   marginLeft: isMobile ? "-40px" : "16px", // Adjusted for mobile
+  //   marginRight: isMobile ? "60px" : "44.68px", // Adjusted for mobile
+  // };
 
-  const titleStyle = {
-    color: "#1D1D1D",
-    fontFamily: "Inter",
-    fontSize: isMobile ? "20px" : "26px",
-    fontStyle: "normal",
-    fontWeight: 600,
-    lineHeight: "normal",
-    textAlign: "center",
-    marginTop: isMobile ? "10px" : "41.13px", // Adjusted for mobile
-    marginBottom: isMobile ? "10px" : "30px",
-    marginRight: isMobile ? "0px" : "30px", // Adjusted for mobile
-  };
+  // const titleStyle = {
+  //   color: "#1D1D1D",
+  //   fontFamily: "Inter",
+  //   fontSize: isMobile ? "20px" : "26px",
+  //   fontStyle: "normal",
+  //   fontWeight: 600,
+  //   lineHeight: "normal",
+  //   textAlign: "center",
+  //   marginTop: isMobile ? "10px" : "41.13px", // Adjusted for mobile
+  //   marginBottom: isMobile ? "10px" : "30px",
+  //   marginRight: isMobile ? "0px" : "30px", // Adjusted for mobile
+  // };
 
   const subtitleStyle = {
     color: "#3E3E3E",
@@ -262,7 +281,7 @@ export default function Payment() {
 
   return (
     <div style={formContainerStyle}>
-      <div style={rectangleStyle}>
+      {/* <div style={rectangleStyle}>
         <img src="/Path 46026.png" alt="Path 46026" style={pathImageStyle} />
         <div style={titleContainerStyle}>
           <button
@@ -278,7 +297,8 @@ export default function Payment() {
           </button>
           <div style={titleStyle}>Payment Detail</div>
         </div>
-      </div>
+      </div> */}
+      <Header onClick={handleGoBackClick} title="Payment Detail" />
       <div style={subtitleStyle}>Paying to Weekly Group Buy</div>
       <div style={subtitleStyle1}>Amount</div>
       <div style={amountStyle}>₹ {calculateTotalAmount()}</div>

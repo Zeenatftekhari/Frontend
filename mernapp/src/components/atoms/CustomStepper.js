@@ -62,7 +62,7 @@ const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
 }));
 
 function ColorlibStepIcon(props) {
-  console.log(props);
+  // console.log(props);
   const { active, completed, className, step, count, index } = props;
 
   const icons = {
@@ -104,14 +104,15 @@ ColorlibStepIcon.propTypes = {
 const steps = [1000, 900, 800, 700, 600];
 
 export default function CustomizedSteppers({ count }) {
+  let activeStep = count < 100 ? count - 1 : 0
   return (
     <Card
       sx={{
         backgroundColor: "#ede7f6",
-        width: "40em",
-        height: "8em",
-        marginX: "1.5em",
-        marginY: "2.5em",
+        width: "100%",
+        height: "7em",
+        // marginX: "1.5em",
+        marginY: "1em",
       }}
     >
       <Stack
@@ -131,6 +132,7 @@ export default function CustomizedSteppers({ count }) {
                     step={index + 1}
                     count={index + 1 === 1 ? count : ""}
                     index={index + 1}
+                    active
                   />
                 )}
                 sx={{ fontSize: "1.2em", fontWeight: 800 }}

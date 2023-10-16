@@ -1,6 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Badge from "react-bootstrap/Badge";
+import { AppBar, Box, Grid, Typography } from "@mui/material";
+import SearchInputBox from "./atoms/searchbar/SearchInputBox";
 
 const navbarStyle = {
   marginTop: "41px",
@@ -11,7 +13,7 @@ const navbarStyle = {
 
 const titleStyle = {
   color: "#C47ECC",
-  textAlign: "center",
+  // textAlign: "center",
   fontFamily: "Inter",
   fontSize: "20px",
   fontStyle: "normal",
@@ -29,11 +31,12 @@ const subtitleStyle = {
   lineHeight: "26px",
   display: "flex",
   alignItems: "center",
-  marginBottom: "0", // Adjust as needed
+  marginBottom: "0",
+  marginLeft: "5px",
 };
 
 const searchNavbarStyle = {
-  width: "343px",
+  width: "315px",
   height: "40px",
   flexShrink: 0,
   borderRadius: "10px",
@@ -43,13 +46,15 @@ const searchNavbarStyle = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "0 10px", // Adjust padding as needed
+  padding: "10px", // Adjust padding as needed
 };
 
 const iconStyle = {
   width: "10px",
   height: "12px",
+  textAlign: "center",
   flexShrink: 0,
+  // marginLeft: "50px",
 };
 
 const searchIconStyle = {
@@ -67,6 +72,7 @@ const micIconStyle = {
 const buttonContainerStyle = {
   display: "flex",
   justifyContent: "center",
+  flexDirection: "row",
 };
 
 const buttonStyle = {
@@ -74,20 +80,40 @@ const buttonStyle = {
   cursor: "pointer",
 };
 
-export default function Navbar({ userInfo, searchProduct }) {
+export default function Navbar({ userInfo, search, searchProduct }) {
+  const navigate = useNavigate();
+ 
+  const onProfileClick = () => {
+    navigate("/Profile", { state: userInfo })
+  }
   return (
-    <div style={navbarStyle}>
-      <nav className="navbar navbar-expand-lg navbar-light">
-        <div className="container-fluid">
-          <Link className="navbar-brand fs-1 fst-inter" to="/">
-            <h1 style={titleStyle}>Welcome back User</h1>
-            <div style={subtitleStyle}>
-              <img src="/location.png" alt="User Location" style={iconStyle} />
+    <Grid container style={{}}>
+      <Grid item container sx={{ backgroundColor: "#fff", mt: "0.5em" }} p={2}>
+        <Grid
+          item
+          xs={10}
+          display="flex"
+          flexDirection="column"
+          justifyContent={"start"}
+        >
+          <h1 style={titleStyle}>Welcome back User</h1>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              alignSelf: "start",
+            }}
+          >
+            <img src="/location.png" alt="User Location" style={iconStyle} />
+            <Typography style={subtitleStyle}>
               {userInfo?.length > 0 ? userInfo[0].address : "User Location"}
-            </div>
-          </Link>
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={2} display="flex" flexDirection="column">
           <div style={buttonContainerStyle}>
-            <Link to="/Profile">
+            <div onClick={onProfileClick}>
               <img
                 src="/face_FILL0_wght400_GRAD0_opsz48 3.png"
                 alt="Profile"
@@ -98,9 +124,10 @@ export default function Navbar({ userInfo, searchProduct }) {
                   top: "44px",
                   left: "309px",
                 }}
+
               />
-            </Link>
-            <Link to="/Cart" r>
+            </div>
+            <div onClick={() => navigate("/Cart")}>
               <img
                 src="/add to cart.png"
                 alt="Add to Cart"
@@ -112,21 +139,29 @@ export default function Navbar({ userInfo, searchProduct }) {
                   left: "342px",
                 }}
               />
-            </Link>
+            </div>
           </div>
-          <form className="d-flex" style={searchNavbarStyle}>
-            <img src="/search.png" alt="Search" style={searchIconStyle} />
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              inter-label="Search"
-              onChange={(e) => searchProduct(e)}
-            />
-            <img src="/mic.png" alt="Mic" style={micIconStyle} />
-          </form>
-        </div>
-      </nav>
-    </div>
+        </Grid>
+      </Grid>
+      <Grid container p={2}>
+        <Grid item xs={12} className="d-flex" style={{}}>
+          <SearchInputBox
+            type="text"
+            value={search}
+            sx={{ width: "100%" }}
+            onChange={searchProduct}
+          />
+          {/* <img src="/search.png" alt="Search" style={searchIconStyle} /> */}
+          {/* <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search"
+            inter-label="Search"
+            onChange={(e) => searchProduct(e)}
+          />
+          <img src="/mic.png" alt="Mic" style={micIconStyle} /> */}
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useDispatchCart, useCart } from "./ContextReducer";
 import { useNavigate } from "react-router-dom";
+import { Box, Grid, Typography, Button, Divider } from "@mui/material";
+// import {  } from "bootstrap";
 
-export default function Card(props) {
+export default function CustomCard({
+  ImgSrc,
+  options,
+  item,
+  FoodName,
+  index,
+  handleIndex = () => { }
+}) {
+  console.log(index);
   const cartData = useCart();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
-  const [size, setSize] = useState(Object.keys(props.options)[0]);
-  const priceOptions = Object.keys(props.options);
+  const [size, setSize] = useState(Object.keys(options)[0]);
+  const priceOptions = Object.keys(options);
   const [productToShow, setProductToShow] = useState(null);
-  const groceryItem = props.item;
-  const { FoodName } = props;
+  const groceryItem = item;
   const dispatch = useDispatchCart();
 
-  const handleParticipateClick = () => {
+  const handleParticipateClick = (ind) => {
     if (!localStorage.getItem("token")) {
-      console.log("Navigating to Product Detail");
-      console.log(groceryItem.name, groceryItem.name.length);
       if (FoodName) {
         console.log(FoodName, FoodName.length);
       } else {
         console.log("FoodName is undefined");
       }
-
-      const encodedName = encodeURIComponent(props.item.name);
+      console.log("participate");
+      handleIndex(ind);
+      const encodedName = encodeURIComponent(item.name);
       navigate(`/Productdetail/${encodedName}`, { state: groceryItem._id });
     }
   };
@@ -38,7 +46,7 @@ export default function Card(props) {
 
   const handleAddToCart = async () => {
     const foodItem = cartData.find((item) => item.id === groceryItem._id);
-    const finalPrice = qty * parseInt(props.options[size]);
+    const finalPrice = qty * parseInt(options[size]);
 
     if (foodItem) {
       if (foodItem.size === size) {
@@ -56,7 +64,7 @@ export default function Card(props) {
           price: finalPrice,
           qty: qty,
           size: size,
-          img: props.ImgSrc,
+          img: ImgSrc,
         });
         console.log("Size is different, so simply ADD one more to the list");
       }
@@ -68,16 +76,16 @@ export default function Card(props) {
         price: finalPrice,
         qty: qty,
         size: size,
-        img: props.ImgSrc,
+        img: ImgSrc,
       });
     }
   };
 
   useEffect(() => {
-    setSize(Object.keys(props.options)[0]); // Initialize size when options change
-  }, [props.options]);
+    setSize(Object.keys(options)[0]); // Initialize size when options change
+  }, [options]);
 
-  const finalPrice = qty * parseInt(props.options[size]);
+  const finalPrice = qty * parseInt(options[size]);
 
   const participateButtonStyle = {
     borderRadius: "6px",
@@ -92,8 +100,10 @@ export default function Card(props) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: "170px",
+    // marginLeft: "170px",
     cursor: "pointer",
+    marginTop: "50px",
+    // padding:"10px"
   };
   const descriptionStyle5 = {
     color: "#FFF",
@@ -142,7 +152,7 @@ export default function Card(props) {
     fontStyle: "normal",
     fontWeight: 400,
     lineHeight: "14px",
-    textAlign: "left",
+    textAlign: "center",
     marginLeft: "15px",
     marginTop: "15px",
     marginBottom: "5px",
@@ -160,65 +170,173 @@ export default function Card(props) {
     fontWeight: 400,
     lineHeight: "14px",
     textAlign: "center",
-    marginLeft: "-10px",
-    marginRight: "80px",
-    marginTop: "10px",
-    marginBottom: "-25px",
-    width: "169px", // Set the width
-    height: "17px", // Set the height
+    // marginLeft: "-10px",
+    // marginRight: "80px",
+    // marginTop: "10px",
+    // marginBottom: "-25px",
+    // width: "169px", // Set the width
+    // height: "17px", // Set the height
     flexShrink: 0,
   };
   return (
-    <div className="card mt-1" style={{ width: "22rem", maxHeight: "360px" }}>
-      <div style={descriptionStyle1}> Ends in 10.0.0 </div>
-      <img
-        src={props.item.img}
-        className="card-img-top"
-        alt="..."
-        style={{
-          width: "60px",
-          height: "69px",
-          flexshrink: 0,
-          objectFit: "fill",
-          ...descriptionStyle13,
-        }}
-      />
-      <div style={descriptionStyle7}>
-        {" "}
-        Next price drops at:{
-          productToShow?.options?.[5]?.Next_Price_drops_at
-        }{" "}
-        220g
-      </div>
-      <div className="card-body">
-        <h5
-          className="card-title"
-          style={{
-            fontFamily: "Inter",
-            fontSize: "12px",
-            marginLeft: "62px",
-            marginTop: "-80px",
-            marginRight: "100px",
-          }}
+    <>
+      <Grid container p={1} gap={1}>
+        <Grid item xs={12}>
+          <div style={descriptionStyle1}> Ends in 10.0.0 </div>
+        </Grid>
+        <Grid item container justifyContent={"space-around"} sm={12}>
+          <Grid item xs={3}>
+            <img
+              src={item.img}
+              className="card-img-top"
+              alt="..."
+              style={{
+                width: "80px",
+                height: "69px",
+                flexshrink: 0,
+                objectFit: "fill",
+                ...descriptionStyle13,
+              }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography
+              variant="subtitle2"
+              style={{
+                maxWidth: "12em",
+                wordWrap: "break-word",
+              }}
+            >
+              {item.name}
+            </Typography>
+          </Grid>
+          <Grid item xs={2} marginTop={-5}>
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              sx={{
+                height: "4em",
+                width: "4em",
+                backgroundColor: "red",
+                borderRadius: "5px",
+              }}
+            >
+              <Box
+                sx={{
+                  textAlign: "center",
+                  height: "2.5em",
+                  width: "4em",
+                  backgroundColor: "red",
+                  borderTopLeftRadius: "5px",
+                  borderTopRightRadius: "5px",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#fff",
+                }}
+              >
+                Current price
+              </Box>
+              <Box
+                className="card-price1"
+                sx={{
+                  mt: "0.5em",
+                  height: "1.5",
+                  width: "4em",
+                  backgroundColor: "black",
+                  color: "#fff",
+                  textAlign: "center",
+                  borderBottomLeftRadius: "5px",
+                  borderBottomRightRadius: "5px",
+                }}
+              >
+                ₹ {finalPrice}
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          alignItems="center"
+          justifyContent={"space-between"}
         >
-          {props.item.name}
-        </h5>
+          <Grid item xs={6}>
+            <Typography variant="subtitle2" sx={{ fontSize: "10px" }}>
+              Next price drops at:
+              {productToShow?.options?.[5]?.Next_Price_drops_at}
+              220g
+            </Typography>
+          </Grid>
+          <Grid item xs={6} justifySelf={"end"}>
+            <Button
+              onClick={() => {
+                handleIndex(index);
+                handleParticipateClick();
+              }}
+              sx={{
+                height: { sm: "2em", xs: "2em" },
+                width: { sm: "12em", xs: "13em" },
+                color: "#fff",
+                background: "#B878CB",
+              }}
+              variant="contained"
+            >
+              Participate Now
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Divider sx={{ color: "grey", height: "5px" }} />
+    </>
 
-        <div className="container w-100">
-          <div className="card-price" style={descriptionStyle5}>
-            <div>Current price</div>
-          </div>
-          <div className="card-price1" style={descriptionStyle6}>
-            ₹ {finalPrice}
-          </div>
-          <button
-            style={participateButtonStyle}
-            onClick={handleParticipateClick}
-          >
-            Participate Now
-          </button>
-        </div>
-      </div>
-    </div>
+    // <div className="card mt-1" style={{ width: "22rem", maxHeight: "360px" }}>
+    //   <div style={descriptionStyle1}> Ends in 10.0.0 </div>
+    //   <img
+    //     src={item.img}
+    //     className="card-img-top"
+    //     alt="..."
+    //     style={{
+    //       width: "60px",
+    //       height: "69px",
+    //       flexshrink: 0,
+    //       objectFit: "fill",
+    //       ...descriptionStyle13,
+    //     }}
+    //   />
+    //   <div style={descriptionStyle7}>
+    //     Next price drops at:{productToShow?.options?.[5]?.Next_Price_drops_at}
+    //     220g
+    //   </div>
+    //   <div className="card-body">
+    //     <h5
+    //       className="card-title"
+    //       style={{
+    //         fontFamily: "Inter",
+    //         fontSize: "12px",
+    //         marginLeft: "62px",
+    //         marginTop: "-80px",
+    //         marginRight: "100px",
+    //       }}
+    //     >
+    //       {item.name}
+    //     </h5>
+
+    //     <div className="container w-100">
+    //       <div className="card-price" style={descriptionStyle5}>
+    //         <div>Current price</div>
+    //       </div>
+    //       <div className="card-price1" style={descriptionStyle6}>
+    //         ₹ {finalPrice}
+    //       </div>
+    //       <button
+    //         style={participateButtonStyle}
+    //         onClick={handleParticipateClick}
+    //       >
+    //         Participate Now
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }

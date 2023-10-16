@@ -1,4 +1,4 @@
-import React ,{ useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import "./Biddingpopup.css";
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -44,12 +44,12 @@ export default function Biddingpopup() {
     return <div>Loading...</div>;
   }
   const handleParticipateClick = () => {
-        
+
     navigate(`/OrderPlacement/${name}`);
-};
+  };
 
   const isMobile = window.innerWidth <= 480;
- 
+
   const pathImageStyle = {
     width: '104px',
     height: '4px',
@@ -112,7 +112,7 @@ export default function Biddingpopup() {
     textAlign: 'center',
     marginTop: '111.13px',
     marginBottom: '80px',
- 
+
   };
 
   const descriptionStyle = {
@@ -128,12 +128,12 @@ export default function Biddingpopup() {
     marginLeft: '-15px',
     background: 'linear-gradient(247deg, #905CC6 0%, #C47ECC 100%)', // Replace with your desired rgba color value
     borderRadius: '6px',
-    width: '661px', 
-    height: '31px', 
+    width: '661px',
+    height: '31px',
     flexShrink: 0
   };
 
-  
+
 
   const descriptionStyle1 = {
     color: '#000',
@@ -305,7 +305,7 @@ export default function Biddingpopup() {
     flexShrink: 0,
     marginLeft: '18px',
     marginRight: '28px',
-    
+
   };
   const RectangleImageStyle1 = {
     width: isMobile ? '100%' : '343px', // Adjusted for mobile
@@ -316,7 +316,7 @@ export default function Biddingpopup() {
     marginTop: '-420px',
     marginBottom: '90px',
     position: 'center',
-    
+
   };
   const biddingstyle = {
     borderRadius: '6px',
@@ -359,123 +359,123 @@ export default function Biddingpopup() {
     width: '169px',
     height: '17px',
     flexShrink: 0
-};
-
-
-    const subtitleStyle1 = {
-        color: '#3E3E3E',
-        textAlign: 'center',
-        fontFamily: 'Inter',
-        fontSize: '18px',
-        letterSpacing: '0.018px',
-        fontStyle: 'normal',
-        fontWeight: 600,
-        lineHeight: '45px',
-        marginTop: '0px',
-    };
-
-    const subtitleStyle = {
-        color: '#8C5CE3',
-        fontFamily: 'Inter',
-        fontSize: '21px',
-        fontStyle: 'normal',
-        fontWeight: 600,
-        lineHeight: '45px',
-        letterSpacing: '0.021px',
-        marginTop: '-44px',
-        marginBottom: '0px',
-    };
-    const RectangleImageStyle2 = {
-      width: '975px',
-      height: '3122px',
-      marginBottom:'-2302px'
-    };
-    const buttonStyle1 = {
-      width: '174px',
-      height: '54px',
-      flexShrink: 0,
-      color: '#FFF',
-      textAlign: 'center',
-      fontFamily: 'Inter',
-      fontSize: '14px',
-      fontStyle: 'normal',
-      fontWeight: '500',
-      lineHeight: '16px',
-      letterSpacing: '-0.145px',
-      borderRadius: '6px',
-      background: 'linear-gradient(247deg, #905CC6 0%, #C47ECC 100%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: '16px',
-      marginLeft:'50px'
   };
-      
 
 
-    return (
-        <div style={formContainerStyle}>
-            <div style={rectangleStyle}>
-            <img src="/Group 2.png" alt="Rectangle" style={RectangleImageStyle2} />
-                <img src="/Path 46026.png" alt="Path 46026" style={pathImageStyle} />
-                <div style={titleContainerStyle}>
-                    <img src="/leftarrow.png" alt="Left Arrow" style={arrowImageStyle} />
-                    <div style={titleStyle}>Bidding Detail</div>
-                </div>
-                <div style={subtitleStyle}>Thank You</div>
-                <div style={subtitleStyle1}>For Participating</div>
-            </div>
-            <img src= "/producdisplay.png" alt="Rectangle" style={RectangleImageStyle} />
-            <img src={productToShow.img}  alt="Rectangle" style={RectangleImageStyle1} />
-            <div>
-          <div style={descriptionStyle1}> Ends in 10.0.0 </div>
-          <div >
-  <p style={descriptionStyle4}>{productToShow.name}</p>
- </div>
+  const subtitleStyle1 = {
+    color: '#3E3E3E',
+    textAlign: 'center',
+    fontFamily: 'Inter',
+    fontSize: '18px',
+    letterSpacing: '0.018px',
+    fontStyle: 'normal',
+    fontWeight: 600,
+    lineHeight: '45px',
+    marginTop: '0px',
+  };
 
-  <div
-  style={descriptionStyle11}>MRP: 
-  <div style={descriptionStyle10}>{productToShow.options[0]?.MRP}</div>
-    </div> 
-    <div>
-      <div style={descriptionStyle11}>Best Price:
-      <div style={descriptionStyle13}> {productToShow.options[2]?.Best_Price}</div>
-      </div>
-      <div style={descriptionStyle11}>Purchased by </div> <div style={descriptionStyle14}>{productToShow.options[6]?.Purchased_by_X_Buyers} 7 Buyers </div>
-</div>
+  const subtitleStyle = {
+    color: '#8C5CE3',
+    fontFamily: 'Inter',
+    fontSize: '21px',
+    fontStyle: 'normal',
+    fontWeight: 600,
+    lineHeight: '45px',
+    letterSpacing: '0.021px',
+    marginTop: '-44px',
+    marginBottom: '0px',
+  };
+  const RectangleImageStyle2 = {
+    width: '975px',
+    height: '3122px',
+    marginBottom: '-2302px'
+  };
+  const buttonStyle1 = {
+    width: '174px',
+    height: '54px',
+    flexShrink: 0,
+    color: '#FFF',
+    textAlign: 'center',
+    fontFamily: 'Inter',
+    fontSize: '14px',
+    fontStyle: 'normal',
+    fontWeight: '500',
+    lineHeight: '16px',
+    letterSpacing: '-0.145px',
+    borderRadius: '6px',
+    background: 'linear-gradient(247deg, #905CC6 0%, #C47ECC 100%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '16px',
+    marginLeft: '50px'
+  };
 
 
-          <div style={descriptionStyle5}>
-            {/* Access Current_Price from the options */}
-            Current Price</div>
-            <div style={descriptionStyle12}>{productToShow.options[3]?.Current_Price}
-          </div>
-          <div>
-            <div>
-          <div style={descriptionStyle15}> Purchased {productToShow.options[4]?.Purchased}</div></div>
-          <div style={descriptionStyle6}> Next price drops at:{productToShow.options[5]?.Next_Price_drops_at}</div>
-          </div>
-                <img src="/bidding.png" alt="bidding" style={biddingstyle} />
-            </div>
-            <div style={descriptionStyle}>You will be charged the final price at the end of the deal</div>
-            <div style={descriptionStyle3}>** You will get a notification once the pool ends</div>
-            <div style={descriptionStyle2}>Invite people to get a better discount</div>
-        <div><div>
-                
-                <div className="potential-drop-rate-container1">
-                    <div className="pure-chocolate2">Hurray !!</div>
-                    <p className="the-wait-is">The wait is over.</p>
-                    <p className="the-wait-is1">You can buy the</p>
-                    <p className="the-wait-is1">
-                        <span>{`product at the final price `}</span>
-                        <span className="span3">₹ 300</span>
-                    </p>
-                    <button type="submit" className="btn btn-primary" style={buttonStyle1}>
-                        <span style={{ marginRight: '0px' }}
-                         onClick={handleParticipateClick}>Continue</span>
-                    </button></div></div>
-            <div style={homeIndicatorStyle}></div>
-            </div>
+
+  return (
+    <div style={formContainerStyle}>
+      <div style={rectangleStyle}>
+        <img src="/Group 2.png" alt="Rectangle" style={RectangleImageStyle2} />
+        <img src="/Path 46026.png" alt="Path 46026" style={pathImageStyle} />
+        <div style={titleContainerStyle}>
+          <img src="/leftarrow.png" alt="Left Arrow" style={arrowImageStyle} />
+          <div style={titleStyle}>Bidding Detail</div>
         </div>
-    );
+        <div style={subtitleStyle}>Thank You</div>
+        <div style={subtitleStyle1}>For Participating</div>
+      </div>
+      <img src="/producdisplay.png" alt="Rectangle" style={RectangleImageStyle} />
+      <img src={productToShow.img} alt="Rectangle" style={RectangleImageStyle1} />
+      <div>
+        <div style={descriptionStyle1}> Ends in 10.0.0 </div>
+        <div >
+          <p style={descriptionStyle4}>{productToShow.name}</p>
+        </div>
+
+        <div
+          style={descriptionStyle11}>MRP:
+          <div style={descriptionStyle10}>{productToShow.options[0]?.MRP}</div>
+        </div>
+        <div>
+          <div style={descriptionStyle11}>Best Price:
+            <div style={descriptionStyle13}> {productToShow.options[2]?.Best_Price}</div>
+          </div>
+          <div style={descriptionStyle11}>Purchased by </div> <div style={descriptionStyle14}>{productToShow.options[6]?.Purchased_by_X_Buyers} 7 Buyers </div>
+        </div>
+
+
+        <div style={descriptionStyle5}>
+          {/* Access Current_Price from the options */}
+          Current Price</div>
+        <div style={descriptionStyle12}>{productToShow.options[3]?.Current_Price}
+        </div>
+        <div>
+          <div>
+            <div style={descriptionStyle15}> Purchased {productToShow.options[4]?.Purchased}</div></div>
+          <div style={descriptionStyle6}> Next price drops at:{productToShow.options[5]?.Next_Price_drops_at}</div>
+        </div>
+        <img src="/bidding.png" alt="bidding" style={biddingstyle} />
+      </div>
+      <div style={descriptionStyle}>You will be charged the final price at the end of the deal</div>
+      <div style={descriptionStyle3}>** You will get a notification once the pool ends</div>
+      <div style={descriptionStyle2}>Invite people to get a better discount</div>
+      <div><div>
+
+        <div className="potential-drop-rate-container1">
+          <div className="pure-chocolate2">Hurray !!</div>
+          <p className="the-wait-is">The wait is over.</p>
+          <p className="the-wait-is1">You can buy the</p>
+          <p className="the-wait-is1">
+            <span>{`product at the final price `}</span>
+            <span className="span3">₹ 300</span>
+          </p>
+          <button type="submit" className="btn btn-primary" style={buttonStyle1}>
+            <span style={{ marginRight: '0px' }}
+              onClick={handleParticipateClick}>Continue</span>
+          </button></div></div>
+        <div style={homeIndicatorStyle}></div>
+      </div>
+    </div>
+  );
 }

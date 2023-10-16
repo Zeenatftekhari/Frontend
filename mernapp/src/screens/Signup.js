@@ -1,15 +1,15 @@
-import React , {useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function Signup() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   // State for mobile number and verification flags
   const [mobileNumber, setMobileNumber] = useState('');
   const [isVerified, setIsVerified] = useState(false);
   const [isDetailsVerified, setIsDetailsVerified] = useState(false);
-  
+
   // State for credentials
   const [credentials, setCredentials] = useState({
     name: '',
@@ -52,20 +52,20 @@ export default function Signup() {
       alert('Enter Valid Credentials');
     }
 
-   
+
     if (isDetailsVerified) {
       // Use Navigate to navigate to the Login page
       navigate('/Login');
     }
   };
-  
+
 
   const onChange = (event) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
   };
 
   const buttonStyle = {
-    width: '343px',
+    width: '100%',
     height: '54px',
     flexShrink: 0,
     color: '#FFF',
@@ -109,7 +109,7 @@ export default function Signup() {
     paddingRight: '15px',
     fontSize: '16px',
     lineHeight: '24px',
-    marginLeft:'15px'
+    marginLeft: 'auto'
   };
 
   const inputWithMarginStyle = {
@@ -124,7 +124,7 @@ export default function Signup() {
     fontStyle: 'normal',
     fontWeight: 600,
     lineHeight: '26px',
-    marginLeft : '10px'
+    marginLeft: '10px'
   };
 
   const infoLabelStyle = {
@@ -134,7 +134,7 @@ export default function Signup() {
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: '26px',
-    marginLeft : '25px'
+    marginLeft: '25px'
   };
 
   const titleStyle = {
@@ -162,7 +162,7 @@ export default function Signup() {
   };
 
   const rectangleStyle = {
-    width: '475px',
+    width: '100%',
     height: '91.2px',
     flexShrink: 0,
     background: '#C47ECC',
@@ -187,7 +187,7 @@ export default function Signup() {
     justifyContent: 'center',
     borderRadius: '50%',
     background: '#8C5CE3',
-    marginBottom:'9px'
+    marginBottom: '9px'
   };
   const overlappingCircleStyle = {
     width: '35px',
@@ -218,7 +218,7 @@ export default function Signup() {
   );
 
   const topRectangleStyle = {
-    width: '375px',
+    width: '100%',
     height: '732px',
     flexShrink: 0,
     borderRadius: '10px 10px 0px 0px',
@@ -230,10 +230,10 @@ export default function Signup() {
     left: '50%',
     transform: 'translate(-50%, -50%)',
   };
-   const checkbox = {
+  const checkbox = {
     marginLeft: '1px'
-   }
- 
+  }
+
 
   return (
     <div style={formContainerStyle}>
@@ -245,16 +245,16 @@ export default function Signup() {
       <div style={titleStyle}>Create Your Account Here</div>
       <form onSubmit={handleFormSubmit}>
         <div className="mb-3" style={inputLayoutStyle}>
-          <input type="text" className="form-control" name="name" placeholder="Name" value= {credentials.name} onChange={onChange}style={inputStyle} />
+          <input type="text" className="form-control" name="name" placeholder="Name" value={credentials.name} onChange={onChange} style={inputStyle} />
         </div>
         <div className="mb-3" style={inputLayoutStyle}>
-          <input type="text" className="form-control" name="address" placeholder="Address (Incl. Society Name, Flat Number)" value= {credentials.address} onChange={onChange} style={inputStyle} />
+          <input type="text" className="form-control" name="address" placeholder="Address (Incl. Society Name, Flat Number)" value={credentials.address} onChange={onChange} style={inputStyle} />
         </div>
         <div className="mb-3" style={inputLayoutStyle}>
           <input type="text" className="form-control" name="ChairmanName" placeholder="Society Chairman Name" value={credentials.ChairmanName} onChange={onChange} style={inputStyle} />
         </div>
         <div className="mb-3" style={inputLayoutStyle}>
-          <input type="email" className="form-control" name="Chairmanemail" placeholder="Society Chairman's Email Address"  value= {credentials.Chairmanemail} onChange={onChange} style={inputStyle} />
+          <input type="email" className="form-control" name="Chairmanemail" placeholder="Society Chairman's Email Address" value={credentials.Chairmanemail} onChange={onChange} style={inputStyle} />
           <span
             className="form-label"
             style={{
@@ -276,7 +276,7 @@ export default function Signup() {
             className="form-control"
             name="Wings"
             placeholder="Wings"
-            value= {credentials.Wings}
+            value={credentials.Wings}
             onChange={onChange}
             style={inputWithMarginStyle}
           />
@@ -285,7 +285,7 @@ export default function Signup() {
             className="form-control"
             name="Pincode"
             placeholder="Pincode"
-            value= {credentials.Pincode}
+            value={credentials.Pincode}
             onChange={onChange}
             style={inputWithMarginStyle}
           />
@@ -295,10 +295,11 @@ export default function Signup() {
             type="text"
             className="form-control"
             name="MobileNumber"
-             value= {credentials.MobileNumber}
-             onChange={(event) => {
+            value={credentials.MobileNumber}
+            onChange={(event) => {
               handleMobileNumberChange(event);
-              onChange(event)}}
+              onChange(event)
+            }}
             placeholder="Mobile Number"
             style={inputStyle}
           />
@@ -315,8 +316,8 @@ export default function Signup() {
                 fontStyle: 'italic',
                 fontWeight: 600,
                 lineHeight: '26px',
-                marginLeft:'26px'
-              
+                marginLeft: '26px'
+
               }}
             >
               {mobileNumber.length === 12 ? (
@@ -345,7 +346,7 @@ export default function Signup() {
           </div>
         </div>
         <div className="mb-3 form-check">
-          <input type="checkbox" className="form-check-input" id="exampleCheck1"  style={checkbox}/>
+          <input type="checkbox" className="form-check-input" id="exampleCheck1" style={checkbox} />
           <strong className="form-check-label" htmlFor="exampleCheck1" style={agreementLabelStyle}>
             Agree to our Terms and Conditions
           </strong>
@@ -355,7 +356,7 @@ export default function Signup() {
           className="btn btn-primary"
           disabled={!isVerified}
           style={buttonStyle}
-          onClick={handleFormSubmit} 
+          onClick={handleFormSubmit}
         >
           <span style={{ marginRight: '5px' }}>Proceed</span> <FontAwesomeIcon icon={faArrowRight} />
         </button>

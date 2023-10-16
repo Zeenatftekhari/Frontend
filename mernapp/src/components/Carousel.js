@@ -108,7 +108,7 @@ function SwipeableTextMobileStepper() {
           {images.map((step, index) => {
             return (
               <>
-                <Grid container p={2}>
+                <Grid container p={2} key={index}>
                   <Grid
                     item
                     xs={12}

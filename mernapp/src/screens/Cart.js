@@ -61,7 +61,7 @@ function Cart() {
   };
 
   useEffect(() => {
-    let tempRow = [...originalBiddingData]; // Use the original data
+    let tempRow = originalBiddingData?.length > 0 ? [...originalBiddingData] : []; // Use the original data
 
     if (searchText?.length < previousSearchTextLength) {
       // Backspace key was pressed, revert to original data

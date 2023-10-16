@@ -14,25 +14,26 @@ import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import ShareIcon from "@mui/icons-material/Share";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Header from "../components/atoms/header";
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import CustomTextField from "../components/atoms/CustomTextField/CustomTextField";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import CustomTextField from "../components/atoms/CustomTextField/CustomButton";
 import { useState } from "react";
+import CustomButton from "../components/atoms/CustomTextField/CustomButton";
 
 const Profile = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [view, setView] = useState(false)
+  const [view, setView] = useState(false);
   const handleGoBackClick = () => {
     navigate("/Home");
   };
   const handleLogout = () => {
-    let promptMsg = window.confirm("Are you sure you want to Logout")
+    let promptMsg = window.confirm("Are you sure you want to Logout");
     if (promptMsg) {
-      localStorage.clear()
+      localStorage.clear();
       navigate("/");
-      alert("Logged out successfully")
+      alert("Logged out successfully");
     }
-  }
+  };
   const pathImageStyle = {
     width: "104px",
     height: "4px",
@@ -46,9 +47,17 @@ const Profile = () => {
   return (
     <>
       <Grid container p={2}>
-        <Grid item >
-          <img className="path-46026-icon" alt="" src="/path-46026.svg" style={pathImageStyle} />
-          <KeyboardBackspaceIcon onClick={handleGoBackClick} sx={{ mt: "2em", mb: "2em" }} />
+        <Grid item>
+          <img
+            className="path-46026-icon"
+            alt=""
+            src="/path-46026.svg"
+            style={pathImageStyle}
+          />
+          <KeyboardBackspaceIcon
+            onClick={handleGoBackClick}
+            sx={{ mt: "2em", mb: "2em" }}
+          />
         </Grid>
 
         <Grid
@@ -62,7 +71,9 @@ const Profile = () => {
           }}
         >
           <Grid item xs={4} justifySelf={"center"} sx={{ textAlign: "center" }}>
-            <Avatar sx={{ width: "90px", height: "90px", background: "#8c5ce3" }}>
+            <Avatar
+              sx={{ width: "90px", height: "90px", background: "#8c5ce3" }}
+            >
               <img
                 className=""
                 alt=""
@@ -70,10 +81,10 @@ const Profile = () => {
               />
             </Avatar>
           </Grid>
-          <Grid item xs={8} >
+          <Grid item xs={8}>
             <Box display="flex">
               <Box>
-                <Typography variant="h4" className>
+                <Typography variant="h4">
                   {location.state && location.state[0].name}
                 </Typography>
                 <Typography variant="subtitle1">
@@ -91,84 +102,89 @@ const Profile = () => {
         </Grid>
         <Grid item container rowGap={2} mt={2}>
           <Grid item xs={12}>
-            <TextField
-              placeholder="Payment Details"
+            <CustomButton
+              lable="My Orders"
               fullWidth
               disabled
               onClick={() => {
-                setView(!view)
+                setView(!view);
               }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <ArrowDropDownIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            {view && <Grid container p={1} justifyContent={"center"} alignItems={"center"} sx={{ background: "rgba(196, 126, 204, 0.35)", height: "6em", width: "100%", borderRadius: "5px" }} >
-              <Grid item xs={8}>
-                <Typography>Pure chocolate</Typography>
-                <Typography>loroem ipsum hjajf hjbjhasfjb </Typography>
-                <Button>View More</Button>
-              </Grid>
-              <Grid item xs={4} sx={{ background: "#fff", height: "4em", width: "60%", borderRadius: "5px" }}>
+              icon={<ArrowDropDownIcon />}
 
+            />
+            {view && (
+              <Grid
+                container
+                p={1}
+                justifyContent={"center"}
+                alignItems={"center"}
+                sx={{
+                  background: "rgba(196, 126, 204, 0.35)",
+                  height: "6em",
+                  width: "100%",
+                  borderRadius: "5px",
+                }}
+              >
+                <Grid item xs={8}>
+                  <Typography>Pure chocolate</Typography>
+                  <Typography>loroem ipsum hjajf hjbjhasfjb </Typography>
+                  <Button>View More</Button>
+                </Grid>
+                <Grid
+                  item
+                  xs={4}
+                  sx={{
+                    background: "#fff",
+                    height: "4em",
+                    width: "60%",
+                    borderRadius: "5px",
+                  }}
+                ></Grid>
               </Grid>
-            </Grid>}
+            )}
           </Grid>
           <Grid item xs={12}>
-            <CustomTextField
-              placeholder="Share the web app"
+            <CustomButton
+              lable="Payment Details"
               fullWidth
               disabled
+              onClick={() => {
+                // setView(!view);
+              }}
+              icon={<ArrowDropDownIcon />}
+
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomButton
+              lable="Share the web app"
+              fullWidth
               icon={<ShareIcon />}
-              InputProps={{
-                //   endAdornment: (
-                //     <InputAdornment position="end">
-
-                //     </InputAdornment>
-                //   ),
-              }}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              placeholder="Track your order"
+            <CustomButton
+              lable="Track your order"
               fullWidth
               disabled
-              InputProps={{
-                endAdornment: <InputAdornment position="end"></InputAdornment>,
-              }}
+              icon={""}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              placeholder="Get updates on whatsapp"
+            <CustomButton
+              lable="Get updates on whatsapp"
               fullWidth
               disabled
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <ToggleOnIcon />
-                  </InputAdornment>
-                ),
-              }}
+              icon={<ToggleOnIcon />}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              placeholder="Logout"
+            <CustomButton
+              lable="Logout"
               fullWidth
               disabled
               onClick={handleLogout}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <ArrowDropDownIcon />
-                  </InputAdornment>
-                ),
-              }}
+              icon={<ArrowDropDownIcon />}
             />
           </Grid>
         </Grid>
@@ -193,11 +209,11 @@ const Profile = () => {
     //     <div className="group-child" />
     //   </div>
 
-    //   
+    //
     //   <div className="shop-with-members1">User Name</div>
 
     //   <div className="shop-now">Shop Now</div>
-    //   
+    //
     //   <img className="ellipse-icon" alt="" src="/ellipse-7621.svg" />
     //   <img
     //     className="face-fill0-wght400-grad0-opsz4-icon"

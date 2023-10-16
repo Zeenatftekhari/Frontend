@@ -17,7 +17,7 @@ const Otp = () => {
   const inputRefs = useRef(null);
   useEffect(() => {
     inputRefs.current.focus();
-    return () => {};
+    return () => { };
   }, [activeOtpIndex]);
 
   const containerWidth = 361;
@@ -181,7 +181,7 @@ const Otp = () => {
           const user = result.user;
           alert("OTP Verified");
           navigate("/home");
-          localStorage.setItem("userInfo", location.state);
+          // localStorage.setItem("userInfo", location.state);
           localStorage.setItem("userInfo2", JSON.stringify(location.state));
         })
         .catch((error) => {

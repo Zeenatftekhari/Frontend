@@ -56,7 +56,7 @@ export default function Login() {
         appVerifier
       );
       window.confirmationResult = confirmationResult;
-      navigate("/Otp");
+      navigate("/Otp",{state:{mobileNumber,email}});
     } catch (error) {
       console.log("Error signing in with phone number:", error);
     }

@@ -1,0 +1,79 @@
+.titleStyle {
+    color: #1D1D1D !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 20px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    text-align: center !important;
+    margin-right: 40px;
+    /* margin-top: 31.13px !important;
+    margin-bottom: 30px !important; */
+  }
+  
+  .rectangleStyle {
+    width: 100% !important;
+    height: auto !important;
+    background: #F0F0F0 !important;
+    position: relative !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .titleContainerStyle {
+    display: flex !important;
+    align-items: center !important;
+    margin-top: 41.13px !important;
+    margin-bottom: 30px !important;
+    /* margin-left: 16px !important;
+    margin-right: 76.68px !important; */
+  }
+  
+  .arrowImageStyle {
+    width: 24px !important;
+    height: 24px !important;
+    flex-shrink: 0 !important;
+    margin-top: 41.13px !important;
+    margin-bottom: 30px !important;
+    margin-left: -90px !important;
+    /* margin-right: 120.68px !important; */
+    position: inherit;
+  }
+  
+  .pathImageStyle {
+    width: 104px !important;
+    height: 4px !important;
+    flex-shrink: 0 !important;
+    margin-top: 11.65px !important;
+    margin-bottom: 25.35px !important;
+    /* margin-left: 136.09px !important;
+    margin-right: 134.91px !important; */
+  }
+  
+   .subtitleStyle1{
+    color: #3E3E3E !important;
+    text-align: center !important;
+    font-family: Inter !important;
+    font-size: 18px !important;
+    letter-spacing: 0.018px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: 45px !important;
+    margin-top: 0px !important;
+  } 
+
+  .subtitleStyle{
+    color: #8C5CE3 !important;
+    font-family: "Inter" !important;
+    font-size: 21px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: 45px !important;
+    letter-spacing: 0.021px !important;
+    text-align: center !important;
+    /* margin-top: -54px !important; */
+    margin-bottom: 0px !important;
+  };

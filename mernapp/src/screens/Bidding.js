@@ -1,10 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getBiddingDetailsOfProduct } from "../services/getBiddingDetails.js/getBiddingDetails";
+import { Box, Button, Grid } from "@mui/material";
+import CustomizedSteppers from "../components/atoms/CustomStepper";
+import Header from "../components/atoms/header";
+import { Details } from "@mui/icons-material";
 export default function Bidding() {
   const { name } = useParams();
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const [biddingCount, setBiddingCount] = useState(0);
+  const productId = JSON.parse(localStorage.getItem("productId"));
 
   const [productToShow, setProductToShow] = useState(null);
+
+  useEffect(() => {
+    getBiddingDetailsCallBack();
+  }, []);
+  const getBiddingDetailsCallBack = () => {
+    getBiddingDetails();
+  };
+  const getBiddingDetails = async () => {
+    try {
+      const { data } = await getBiddingDetailsOfProduct(productId);
+      setBiddingCount(data?.productCount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     async function fetchGroceryItem() {
@@ -26,7 +49,6 @@ export default function Bidding() {
 
         const data = await response.json();
         const product = data.grocery_items.find((item) => item.name === name);
-
         if (product) {
           setProductToShow(product);
         } else {
@@ -46,7 +68,8 @@ export default function Bidding() {
   }
 
   const handleParticipateClick = () => {
-    navigate(`/Biddingpopup/${name}`);
+    navigate(`/Home`);
+    // navigate(`/Biddingpopup/${name}`);
   };
 
   const handleParticipateClick1 = () => {
@@ -54,11 +77,11 @@ export default function Bidding() {
   };
   const handleGoBackClick = () => {
     let encodedName = encodeURIComponent(name);
-    navigate(`/Paymentpage/${encodedName}`);
+    navigate(`/Productdetail/${encodedName}`);
   };
   const isMobile = window.innerWidth <= 480;
   const buttonStyle = {
-    width: isMobile ? "100%" : "673px", // Adjusted width
+    width: "100%",// Adjusted width
     height: "54px",
     flexShrink: 0,
     color: "#FFF",
@@ -75,7 +98,7 @@ export default function Bidding() {
     alignItems: "center",
     justifyContent: "center",
     marginTop: "16px",
-    marginLeft: isMobile ? "10px" : "-10px",
+    // marginLeft: isMobile ? "10px" : "-10px",
   };
 
   const pathImageStyle = {
@@ -151,10 +174,10 @@ export default function Bidding() {
     textAlign: "center",
     marginTop: "10px",
     marginBottom: "5px",
-    marginLeft: "-15px",
+    // marginLeft: "-15px",
     background: "linear-gradient(247deg, #905CC6 0%, #C47ECC 100%)", // Replace with your desired rgba color value
     borderRadius: "6px",
-    width: "661px",
+    width: "100%",
     height: "31px",
     flexShrink: 0,
   };
@@ -261,9 +284,9 @@ export default function Bidding() {
     fontWeight: 700,
     lineHeight: "14px",
     textAlign: "left",
-    marginTop: "-17px",
-    marginBottom: "-88px",
-    marginLeft: "35px",
+    // marginTop: "-17px",
+    // marginBottom: "-88px",
+    // marginLeft: "35px",
   };
   const descriptionStyle13 = {
     color: "#3E3E3E",
@@ -273,9 +296,9 @@ export default function Bidding() {
     fontWeight: 700,
     lineHeight: "14px",
     textAlign: "left",
-    marginTop: "-17px",
-    marginBottom: "-88px",
-    marginLeft: "65px",
+    // marginTop: "-17px",
+    // marginBottom: "-88px",
+    // marginLeft: "65px",
   };
   const descriptionStyle14 = {
     color: "#3E3E3E",
@@ -285,9 +308,9 @@ export default function Bidding() {
     fontWeight: 700,
     lineHeight: "14px",
     textAlign: "left",
-    marginTop: "72px",
-    marginBottom: "-88px",
-    marginLeft: "145px",
+    // marginTop: "72px",
+    // marginBottom: "-88px",
+    // marginLeft: "145px",
   };
   const descriptionStyle11 = {
     color: "#6A6A6A",
@@ -297,9 +320,9 @@ export default function Bidding() {
     fontWeight: 400,
     lineHeight: "18px",
     textAlign: "left",
-    marginTop: "100px",
-    marginBottom: "-88px",
-    marginLeft: "65px",
+    // marginTop: "100px",
+    // marginBottom: "-88px",
+    // marginLeft: "65px",
   };
 
   const homeIndicatorStyle = {
@@ -393,6 +416,69 @@ export default function Bidding() {
     marginTop: "-54px",
     marginBottom: "0px",
   };
+  const descriptionStyle8 = {
+    color: "#3E3E3E",
+    fontFamily: "Inter",
+    fontSize: "18px",
+    fontStyle: "normal",
+    fontWeight: 600,
+    lineHeight: "normal",
+    textAlign: "start",
+    marginTop: "45px",
+    marginLeft: "20px",
+    marginRight: "165px",
+    position: "absolute",
+  }; const descriptionStyle9 = {
+    color: "#3E3E3E",
+    fontFamily: "Inter",
+    fontSize: "12px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "18px",
+    textAlign: "left",
+    marginTop: "83px",
+    marginBottom: "18px",
+    marginLeft: "20px",
+    marginRight: "50px",
+    position: "absolute",
+  }; const descriptionStyle7 = {
+    color: "#fff",
+    fontFamily: "Inter",
+    fontSize: isMobile ? "10px" : "16px", // Adjusted for mobile
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "25px",
+    textAlign: "left",
+    marginTop: "20px",
+    // marginRight: "-380px",
+    // marginBottom: "-10px",
+    // marginLeft: isMobile ? "0" : "14px", // Adjusted for mobile
+    background: "#8C5CE3",
+    borderRadius: "6px",
+    width: "100%", // Adjusted for mobile
+    height: "64px",
+    flexShrink: 0,
+  }; const participateButtonStyle = {
+    color: "#8C5CE3",
+    fontFamily: "Inter",
+    fontSize: "14px",
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "normal",
+    textAlign: "center",
+    width: "10em",
+    height: "26px",
+    flexShrink: 0,
+    borderRadius: "5px",
+    background: "#FFF",
+    border: "none",
+    // marginTop: "-50px",
+    // marginLeft: "520px",
+    // marginRight: "17px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
   const shareViaWhatsApp = () => {
     const productURL = window.location.href; // Get the current page URL
     const message = `Check out this amazing product: ${productToShow.name} - ${productURL}`;
@@ -403,8 +489,190 @@ export default function Bidding() {
   };
 
   return (
-    <div style={formContainerStyle}>
-      <div style={rectangleStyle}>
+    <>
+      <Grid container >
+        <Grid item xs={12}>
+          <Header onClick={handleGoBackClick} title="Bidding Details" />
+        </Grid>
+      </Grid>
+      <Grid item xs={12} p={1}>
+        <Grid container >
+          <Grid item xs={12} mb={6}>
+            <div>
+              <img
+                src="/producdisplay.png"
+                alt="Rectangle"
+                width="96%"
+                height="auto"
+                style={{ position: "absolute" }}
+              />
+
+              <img
+                src={productToShow.img}
+                alt="Rectangle"
+                width={"50%"}
+                height="50%"
+                style={{ marginLeft: "25%", marginTop: "15%" }}
+
+              />
+            </div>
+          </Grid>
+          <Grid item container xs={12} mt={8}>
+            <Grid item container justifyContent={"space-between"} p={1} >
+              <Grid item xs={6} display={"flex"} direction={"column"}>
+                <div style={{ backgroundColor: "#A5FFD4", borderRadius: "6px", textAlign: "center", fontSize: "12px" }}> Ends in 10.0.0 </div>
+                <div >
+                  <p style={{ font: "10px", maxWidth: "200px" }}>{productToShow.name}</p>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <h6 style={{ fontSize: "14px", color: "grey" }}>
+                    MRP <span style={descriptionStyle10}>
+                      {productToShow.options[0]?.MRP}
+                    </span>
+                  </h6>
+                </div>
+                <div>
+                  <div style={descriptionStyle11}>
+                    <h6 style={{ fontSize: "14px", color: "grey" }}>
+                      Best Price <span style={descriptionStyle13}>
+                        {" "}
+                        {productToShow.options[2]?.Best_Price}
+                      </span>
+                    </h6>
+                  </div>
+                  <h6 style={{ fontSize: "14px", color: "grey" }}>Purchased by  <span style={descriptionStyle14}>
+                    {productToShow.options[6]?.Purchased_by_X_Buyers} 7 Buyers{" "}
+                  </span> </h6>{" "}
+
+                </div>
+
+              </Grid>
+              <Grid item xs={6} display={"flex"} direction={"column"}>
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  sx={{
+                    height: "4em",
+                    width: "4em",
+                    backgroundColor: "red",
+                    borderRadius: "5px",
+                    alignSelf: "end"
+                  }}
+                >
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      height: "2.5em",
+                      width: "4em",
+                      backgroundColor: "red",
+                      borderTopLeftRadius: "5px",
+                      borderTopRightRadius: "5px",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      color: "#fff"
+                    }}
+                  >
+                    Current price
+                  </Box>
+                  <Box
+                    className="card-price1"
+                    sx={{
+                      mt: "0.5em",
+                      height: "1.5",
+                      width: "4em",
+                      backgroundColor: "black",
+                      color: "#fff",
+                      textAlign: "center",
+                      borderBottomLeftRadius: "5px",
+                      borderBottomRightRadius: "5px"
+                    }}
+                  >
+                    ₹ {productToShow.options[3]?.Current_Price}
+                  </Box>
+                </Box>
+                {/* <div style={{}}>
+              Current Price
+            </div>
+            <div style={{}}>
+              {productToShow.options[3]?.Current_Price}
+            </div> */}
+                {/* <div style={{ backgroundColor: "#BBBBBB", width: "4em", textAlign: "center", borderRadius: "5px", alignSelf: "end", marginTop: "0.5em" }}>
+                  <button style={buttonStyle1} onClick={handleDecreaseQuantity}>
+                    -
+                  </button>
+                  {quantity}
+                  <button style={buttonStyle1} onClick={handleIncreaseQuantity}>
+                    +
+                  </button>
+                </div> */}
+                <div style={{ alignSelf: "end", textAlign: "end", }}>
+                  <div >
+
+                    Purchased {productToShow.options[4]?.Purchased}
+                  </div>
+                  <div style={{ alignSelf: "end", backgroundColor: "#C47ECC", borderRadius: "6px", padding: "5px", fontSize: "14px" }}>
+                    {" "}
+                    Next price drops at:
+                    {productToShow.options[5]?.Next_Price_drops_at} 220g
+                  </div>
+                </div>
+              </Grid>
+            </Grid>
+
+          </Grid>
+          <Grid item xs={12}>
+            <CustomizedSteppers count={biddingCount} />
+          </Grid>
+          <Grid item xs={12}>
+            <div style={descriptionStyle}>
+              You will be charged the final price at the end of the deal
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={descriptionStyle3}>
+              ** You will get a notification once the pool ends{" "}
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={descriptionStyle2}>
+              Invite people to get a better discount{" "}
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={buttonStyle}
+              onClick={shareViaWhatsApp} // Attach the shareViaWhatsApp function to onClick
+            >
+              <span style={{ marginRight: "5px" }}>Invite Now </span>
+            </button>
+          </Grid>
+          <Grid item container xs={12} alignItems={"center"} sx={{ background: "#8C5CE3", borderRadius: "6px" }} mt={2}>
+            {/* <Grid item xs={7} style={descriptionStyle7} alignItems={"center"}>
+              {" "}
+              Claim this discounted deal by paying token amount ₹ 5/unit
+            </Grid> */}
+            <Grid item xs={12} component={Button} onClick={handleParticipateClick} sx={{ color: "#fff", textTransform: "capitalize" }}>
+
+              {/* <Button > */}
+              Go to Home Page
+              {/* </Button> */}
+            </Grid>
+
+          </Grid>
+          {/* <Grid item xs={12}>
+            <div>
+              <span style={descriptionStyle8}>Product description:</span>
+              <span style={descriptionStyle9}> {productToShow.description}</span>
+            </div>
+          </Grid> */}
+        </Grid>
+      </Grid>
+
+      {/* <div style={formContainerStyle}>
+       <div style={rectangleStyle}>
         <img src="/Path 46026.png" alt="Path 46026" style={pathImageStyle} />
         <div style={titleContainerStyle}>
           <button
@@ -422,7 +690,8 @@ export default function Bidding() {
         </div>
         <div style={subtitleStyle}>Thank You</div>
         <div style={subtitleStyle1}>For Participating</div>
-      </div>
+      </div> *
+      <Header onClick={handleGoBackClick} title="Bidding Details" />
       <img
         src="/producdisplay.png"
         alt="Rectangle"
@@ -458,7 +727,7 @@ export default function Bidding() {
         </div>
 
         <div style={descriptionStyle5}>
-          {/* Access Current_Price from the options */}
+          {/* Access Current_Price from the options 
           Current Price
         </div>
         <div style={descriptionStyle12}>
@@ -476,7 +745,9 @@ export default function Bidding() {
             Next price drops at:{productToShow.options[5]?.Next_Price_drops_at}
           </div>
         </div>
-        <img src="/bidding.png" alt="bidding" style={biddingstyle} />
+        <Box sx={{ width: "400px", mt: "4.5em", mx: "2em" }}>
+          <CustomizedSteppers count={biddingCount} />
+        </Box>
       </div>
       <div style={descriptionStyle}>
         You will be charged the final price at the end of the deal
@@ -504,6 +775,7 @@ export default function Bidding() {
         <span style={{ marginRight: "5px" }}>Go to Home Page</span>
       </button>
       <div style={homeIndicatorStyle}></div>
-    </div>
+    </div > */}
+    </>
   );
 }

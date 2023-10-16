@@ -221,7 +221,7 @@ export default function OrderPlacement() {
     marginLeft: '18px',
     marginRight: '28px',
     marginTop: '-295px',
-    marginBottom:'150px',
+    marginBottom: '150px',
     position: 'center',
   };
   const descriptionStyle10 = {
@@ -281,22 +281,22 @@ export default function OrderPlacement() {
         {/* Access purchased_by_X_Buyers, Current_Price, and Next_Price_drops_at from the options */}
         <p style={descriptionStyle11}>{productToShow.options[6]?.Purchased_by_X_Buyers} Buyers</p>
         <div style={descriptionStyle1}> <p> MRP:  {productToShow.options[0]?.MRP}</p>
-      <p style={descriptionStyle3}>final Price :</p>
-      <p style={descriptionStyle3}> Number of Units: </p>
-      <p style={descriptionStyle3}> Order Total :{} </p>
-      <p style={descriptionStyle3}> Token Amount Paid: </p>
-      <p style={descriptionStyle3}> Balance: </p>
-      <p style={descriptionStyle10}>Total Amount</p> 
-      </div>
+          <p style={descriptionStyle3}>final Price :</p>
+          <p style={descriptionStyle3}> Number of Units: </p>
+          <p style={descriptionStyle3}> Order Total :{ } </p>
+          <p style={descriptionStyle3}> Token Amount Paid: </p>
+          <p style={descriptionStyle3}> Balance: </p>
+          <p style={descriptionStyle10}>Total Amount</p>
+        </div>
       </div>
 
-     
+
       <div style={descriptionStyle}>Congratulations! You are saving</div>
       <div>
-      <button style={participateButtonStyle} onClick={handleParticipateClick}>Pay Now 885 </button>
+        <button style={participateButtonStyle} onClick={handleParticipateClick}>Pay Now 885 </button>
 
       </div>
-      
+
       <div style={descriptionStyle4}>Place the Order </div>
       <div style={homeIndicatorStyle}></div>
     </div>

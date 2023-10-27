@@ -12,7 +12,7 @@ export default function CustomCard({
   index,
   handleIndex = () => { }
 }) {
-  console.log(index);
+  // console.log(index);
   const cartData = useCart();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
@@ -29,7 +29,7 @@ export default function CustomCard({
       } else {
         console.log("FoodName is undefined");
       }
-      console.log("participate");
+      // console.log("participate");
       handleIndex(ind);
       const encodedName = encodeURIComponent(item.name);
       navigate(`/Productdetail/${encodedName}`, { state: groceryItem._id });
@@ -180,19 +180,19 @@ export default function CustomCard({
   };
   return (
     <>
-      <Grid container p={1} gap={1}>
+      <Grid container p={0} gap={1}>
         <Grid item xs={12}>
-          <div style={descriptionStyle1}> Ends in 10.0.0 </div>
+          <Typography style={descriptionStyle1}> Ends in 10.0.0 </Typography>
         </Grid>
         <Grid item container justifyContent={"space-around"} sm={12}>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ width: "80px", height: "69px" }}>
             <img
               src={item.img}
               className="card-img-top"
               alt="..."
               style={{
-                width: "80px",
-                height: "69px",
+                width: "100%",
+                height: "100%",
                 flexshrink: 0,
                 objectFit: "fill",
                 ...descriptionStyle13,
@@ -201,10 +201,12 @@ export default function CustomCard({
           </Grid>
           <Grid item xs={6}>
             <Typography
-              variant="subtitle2"
+              // variant="subtitle2"
               style={{
                 maxWidth: "12em",
                 wordWrap: "break-word",
+                fontSize: "12px",
+                fontWeight: 400
               }}
             >
               {item.name}
@@ -216,7 +218,7 @@ export default function CustomCard({
               flexDirection={"column"}
               sx={{
                 height: "4em",
-                width: "4em",
+                width: "3.5em",
                 backgroundColor: "red",
                 borderRadius: "5px",
               }}
@@ -224,12 +226,12 @@ export default function CustomCard({
               <Box
                 sx={{
                   textAlign: "center",
-                  height: "2.5em",
-                  width: "4em",
+                  height: "60%",
+                  width: "100%",
                   backgroundColor: "red",
                   borderTopLeftRadius: "5px",
                   borderTopRightRadius: "5px",
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontWeight: 600,
                   color: "#fff",
                 }}
@@ -237,11 +239,11 @@ export default function CustomCard({
                 Current price
               </Box>
               <Box
-                className="card-price1"
+                // className="card-price1"
                 sx={{
-                  mt: "0.5em",
-                  height: "1.5",
-                  width: "4em",
+                  // mt: "0.5em",
+                  height: "40%",
+                  width: "100%",
                   backgroundColor: "black",
                   color: "#fff",
                   textAlign: "center",
@@ -275,10 +277,12 @@ export default function CustomCard({
                 handleParticipateClick();
               }}
               sx={{
-                height: { sm: "2em", xs: "2em" },
-                width: { sm: "12em", xs: "13em" },
+                height: "2.5em",
+                width: "100%",
                 color: "#fff",
                 background: "#B878CB",
+                fontSize: "10px",
+                fontWeight: 500
               }}
               variant="contained"
             >
@@ -287,7 +291,7 @@ export default function CustomCard({
           </Grid>
         </Grid>
       </Grid>
-      <Divider sx={{ color: "grey", height: "5px" }} />
+      <Divider sx={{ color: "grey", height: "5px", mt: "1em" }} />
     </>
 
     // <div className="card mt-1" style={{ width: "22rem", maxHeight: "360px" }}>

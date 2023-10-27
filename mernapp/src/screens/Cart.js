@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Chip,
   Grid,
   IconButton,
@@ -22,7 +23,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { getParticipatedData } from "../services/getParticipatedata/getParticipatedData";
 import { TroubleshootSharp } from "@mui/icons-material";
-
+import HomeIcon from "@mui/icons-material/Home";
+import { CardHeader } from "react-bootstrap";
+import Bidding from "./Bidding";
 function Cart() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchText, setSearchText] = useState("");
@@ -31,6 +34,7 @@ function Cart() {
   const [originalBiddingData, setOriginalBiddingData] = useState([]);
   const [showBidding, setShowBidding] = useState(true);
   const [showOrder, setShowOrder] = useState(false);
+  const [selected, setSelected] = useState([]);
 
   const navigate = useNavigate();
 
@@ -41,7 +45,7 @@ function Cart() {
     let userInfo = JSON.parse(userInfo2);
     mobileNumber = userInfo?.mobileNumber;
   } else {
-    console.log(mobileNumber);
+    // console.log(mobileNumber);
   }
 
   useEffect(() => {
@@ -54,14 +58,15 @@ function Cart() {
       setBiddingData(data?.data);
       // Update original bidding data when data is fetched initially
       setOriginalBiddingData(data?.data);
-      console.log(data?.data, data, "data");
+      // console.log(data?.data, data, "data");
     } catch (error) {
       // Handle error
     }
   };
 
   useEffect(() => {
-    let tempRow = originalBiddingData?.length > 0 ? [...originalBiddingData] : []; // Use the original data
+    let tempRow =
+      originalBiddingData?.length > 0 ? [...originalBiddingData] : []; // Use the original data
 
     if (searchText?.length < previousSearchTextLength) {
       // Backspace key was pressed, revert to original data
@@ -80,7 +85,33 @@ function Cart() {
   }, [searchText, originalBiddingData, previousSearchTextLength]);
 
   const open = Boolean(anchorEl);
+  const onCheckBoxClick = (id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
 
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected?.slice(1));
+    } else if (selectedIndex === selected?.length - 1) {
+      newSelected = newSelected.concat(selected?.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected?.slice(0, selectedIndex),
+        selected?.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+  };
+  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      const allSelected = biddingData?.map((item) => item?.item._id);
+      setSelected(allSelected);
+    } else {
+      setSelected([]);
+    }
+  };
   const handleClick = (event) => {
     setAnchorEl(true);
   };
@@ -94,163 +125,147 @@ function Cart() {
   };
   return (
     <>
-      <Card
+      <Grid
+        container
+        alignItems={"center"}
+        justifyContent={"space-between"}
         sx={{
-          height: "200px",
+          height: "60px",
           width: "100%",
           backgroundColor: "rgb(140,92,227)",
-          backgroundImage: "line",
+          // backgroundImage: "line",
           borderBottomLeftRadius: "20px",
           borderBottomRightRadius: "20px",
         }}
       >
         <Grid
-          container
-          padding={2}
-          alignItems={"center"}
-          justifyContent={"space-between"}
+          item
+          xs={3}
+          md={10}
+          textAlign={"center"}
+          onClick={handleHomeButton}
         >
-          <Grid
-            item
-            xs={2}
-            md={10}
-            component={Button}
+          <IconButton
             sx={{ color: "#fff", borderColor: "#fff" }}
-            variant="outlined"
             onClick={handleHomeButton}
           >
-            {/* <Typography variant={"h4"} color="#ffff" sx={{ fontWeight: 800 }}> */}
-            Home
-          </Grid>
-          <Grid item xs={6} md={10}>
-            <Typography variant={"h4"} color="#ffff" sx={{ fontWeight: 800 }}>
-              Your Cart
-            </Typography>
-          </Grid>
-          <Grid item xs={2} md={1} sx={{ md: { justifyContent: "flex-end" } }}>
-            {/* <Avatar color="#ffff" variant="square"> */}
-            <IconButton
-              fontSize="medium"
-              sx={{ color: "#ffff", position: "relative" }}
-              onClick={handleClick}
-            >
-              <MenuIcon />
-            </IconButton>
-
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem
-                onClick={() => {
-                  setShowBidding(true);
-                  setShowOrder(false);
-                  handleClose();
-                }}
-              >
-                Participated
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  setShowBidding(false);
-                  setShowOrder(true);
-                  handleClose();
-                }}
-              >
-                Order Placed
-              </MenuItem>
-            </Menu>
-            {/* </Avatar> */}
-          </Grid>
+            <HomeIcon />
+          </IconButton>
         </Grid>
-        <CardContent
-          sx={{
-            position: "absolute",
-            height: "120px",
-            width: "80%",
-            backgroundColor: "#ffff",
-            mt: "50px",
-            ml: "10%",
-            borderRadius: "20px",
-            border: "1px solid grey",
-            borderColor: "GrayText",
-          }}
-        >
-          <Grid container display={"flex"} direction={"column"} spacing={3}>
-            <Grid item sm={12}>
-              <TextField
-                size="small"
-                fullWidth
-                placeholder="Search your product"
-                onChange={(e) => setSearchText(e.target.value)}
-              ></TextField>
-            </Grid>
-            <Grid
-              item
-              sm={12}
-              container
-              display={"flex"}
-              direction={"row"}
-              justifyContent={"space-evenly"}
+        <Grid item xs={6} md={10} textAlign={"center"}>
+          <Typography variant={"h6"} color="#ffff" sx={{ fontWeight: 800 }}>
+            Your Cart
+          </Typography>
+        </Grid>
+        <Grid item xs={3} md={1} textAlign={"center"}>
+          {/* <Avatar color="#ffff" variant="square"> */}
+          <IconButton
+            fontSize="medium"
+            sx={{ color: "#ffff", position: "relative" }}
+            onClick={handleClick}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+
+          // sx={{ height: "100px !important" }}
+          >
+            <MenuItem
+              onClick={() => {
+                setShowBidding(true);
+                setShowOrder(false);
+                handleClose();
+              }}
+              sx={{ fontSize: "12px", fontWeight: 600 }}
             >
-              <Grid item display={"flex"} columnGap={2}>
-                <Chip label="all" />
-                <Chip label="Grocery" />
-                <Chip label="Foods" />
-                {/* <Chip label="Other" /> */}
-              </Grid>
-              {/* <Grid item sm={3}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    border: "1px solid rgb(140,92,227)",
-                    color: "rgb(140,92,227)",
-                    // width: "1em",
-                  }}
-                >
-                  Grocery
-                </Button>
-              </Grid>
-              <Grid item sm={3}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    border: "1px solid rgb(140,92,227)",
-                    color: "rgb(140,92,227)",
-                  }}
-                >
-                  Other
-                </Button>
-              </Grid> */}
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-      <Card />
-      {/* <CustomCard /> */}
+              Participated
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setShowBidding(false);
+                setShowOrder(true);
+                handleClose();
+              }}
+              sx={{ fontSize: "12px", fontWeight: 600 }}
+            >
+              Order Placed
+            </MenuItem>
+          </Menu>
+          {/* </Avatar> */}
+        </Grid>
+      </Grid>
+      <Grid container mt={1} p={1} rowGap={1}>
+        <Grid item xs={12}>
+          <TextField
+            size="small"
+            fullWidth
+            placeholder="Search your product"
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            sx={{
+              textAlign: "center",
+              width: "100%",
+              // backgroundColor: "rgb(140,92,227) !important",
+            }}
+            variant="contained"
+            disabled
+          >
+            Place Order
+          </Button>
+        </Grid>
+        <Box display={"flex"} alignItems={"center"}>
+          <Checkbox
+            sx={{
+              color: "rgb(140,92,227) !important",
+              "&.Mui-checked": {
+                color: "#0F6F9A",
+              },
+              "&.MuiCheckbox-indeterminate": {
+                color: "#0F6F9A !important",
+              },
+            }}
+            onChange={handleSelectAll}
+            checked={
+              biddingData?.length > 0 && selected?.length === biddingData?.length
+            }
+          // indeterminate={
+          //   selected.length > 0 && selected.length < biddingData.length
+          // }
+          />
+          <Typography>Select All</Typography>
+        </Box>
+      </Grid>
+
       {showBidding ? (
         biddingData?.length > 0 ? (
           biddingData.map((item, index) => {
-            console.log(item.item.options, "hhh");
+            const isItemSelected = isSelected(item?.item._id);
             return (
               <Card
                 sx={{
-                  mt: "4em",
+                  mt: "1em",
                   // mx: 1,
                 }}
+                key={index}
               >
                 <CardContent>
                   <Grid container>
@@ -268,25 +283,26 @@ function Cart() {
                           src={item.item.img}
                           width="80%"
                           height="80%"
-                          alt="productImg"
+                          alt="proImg"
                           style={{ margin: "10%" }}
                         />
                       </Box>
                     </Grid>
                     <Grid item xs={7} container direction={"column"}>
-                      <Grid item>
-                        <Typography
-                          style={{
-                            backgroundColor: "#A5FFD4",
-                            borderRadius: "6px",
-                            textAlign: "center",
-                            fontSize: "12px",
-                            width: "60%",
-                          }}
-                        >
-                          Ends in 10.0.0
-                        </Typography>
-                      </Grid>
+                      {/* <Grid item> */}
+                      <Typography
+                        style={{
+                          backgroundColor: "#A5FFD4",
+                          borderRadius: "6px",
+                          textAlign: "center",
+                          fontSize: "12px",
+                          width: "60%",
+                          padding: "0px",
+                        }}
+                      >
+                        Ends in 10.0.0
+                      </Typography>
+                      {/* </Grid> */}
                       <Grid item>
                         <Typography sx={{ fontSize: "12px" }}>
                           {item?.item?.name}
@@ -294,7 +310,10 @@ function Cart() {
                       </Grid>
                       <Grid item>
                         <Typography sx={{ fontSize: "12px" }}>
-                          Token Amount ₹ {item?.tokenAmount / 100}
+                          Token Amount{" "}
+                          <span style={{ fontWeight: 600 }}>
+                            ₹ {item?.tokenAmount / 100}
+                          </span>
                         </Typography>
                       </Grid>
                     </Grid>
@@ -304,17 +323,18 @@ function Cart() {
                         flexDirection={"column"}
                         sx={{
                           height: "3em",
-                          width: "3em",
+                          width: "3.5em",
                           backgroundColor: "red",
                           borderRadius: "5px",
-                          alignSelf: "end",
+                          alignItems: "center",
+                          // alignSelf: "end",
                         }}
                       >
                         <Box
                           sx={{
-                            textAlign: "center",
+                            // textAlign: "center",
                             height: "2.5em",
-                            width: "3em",
+                            width: "100%",
                             backgroundColor: "red",
                             borderTopLeftRadius: "5px",
                             borderTopRightRadius: "5px",
@@ -323,14 +343,20 @@ function Cart() {
                             color: "#fff",
                           }}
                         >
-                          Current price
+                          <Typography
+                            textAlign={"center"}
+                            sx={{ fontSize: "12px" }}
+                          >
+                            {" "}
+                            Current price
+                          </Typography>
                         </Box>
                         <Box
-                          className="card-price1"
+                          // className="card-price1"
                           sx={{
                             mt: "0.5em",
                             height: "1.5",
-                            width: "3em",
+                            width: "100%",
                             backgroundColor: "black",
                             color: "#fff",
                             textAlign: "center",
@@ -341,9 +367,26 @@ function Cart() {
                           ₹ {parseInt(item?.item?.options[3][0]?.Current_Price)}
                         </Box>
                       </Box>
-                      <Typography sx={{ mt: "1em" }}>
-                        Qty: {item?.quantity}
+                      <Typography sx={{ mt: "1em", fontSize: "14px" }}>
+                        Qty:{" "}
+                        <span style={{ fontWeight: 600 }}>
+                          {item?.quantity}
+                        </span>
                       </Typography>
+                      <Checkbox
+                        sx={{
+                          position: "absolute",
+                          color: "rgb(140,92,227) !important",
+                          "&.Mui-checked": {
+                            color: "#0F6F9A",
+                          },
+                          "&.MuiCheckbox-indeterminate": {
+                            color: "#0F6F9A !important",
+                          },
+                        }}
+                        onChange={() => onCheckBoxClick(item?.item._id)}
+                        checked={isItemSelected}
+                      />
                     </Grid>
                   </Grid>
                 </CardContent>
@@ -352,13 +395,17 @@ function Cart() {
           })
         ) : (
           <>
-            <Card sx={{
-              mt: "4em",
-              height: "10em",
-              textAlign: "center",
-              borderRadius: "10px",
-              paddingTop: "4.5em",
-            }}>No data found</Card>
+            <Card
+              sx={{
+                mt: "1em",
+                height: "10em",
+                textAlign: "center",
+                borderRadius: "10px",
+                paddingTop: "4.5em",
+              }}
+            >
+              No data found
+            </Card>
           </>
         )
       ) : showOrder ? (

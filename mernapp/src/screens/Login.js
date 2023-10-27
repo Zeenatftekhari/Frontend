@@ -56,7 +56,7 @@ export default function Login() {
         appVerifier
       );
       window.confirmationResult = confirmationResult;
-      navigate("/Otp",{state:{mobileNumber,email}});
+      navigate("/Otp", { state: { mobileNumber, email } });
     } catch (error) {
       console.log("Error signing in with phone number:", error);
     }
@@ -68,7 +68,7 @@ export default function Login() {
   };
 
   const buttonStyle = {
-    width: "343px",
+    width: "95%",
     height: "54px",
     flexShrink: 0,
     color: "#FFF",
@@ -89,7 +89,7 @@ export default function Login() {
   };
 
   const inputLayoutStyle = {
-    width: "315px",
+    width: "95%",
     height: "40px",
     flexShrink: "0",
     alignItems: "center",
@@ -172,7 +172,7 @@ export default function Login() {
   };
 
   const rectangleStyle = {
-    width: "475px",
+    width: "100%",
     height: "91.2px",
     flexShrink: 0,
     background: "#C47ECC",
@@ -214,7 +214,7 @@ export default function Login() {
   );
 
   const topRectangleStyle = {
-    width: "375px",
+    width: "100%",
     height: "732px",
     flexShrink: 0,
     borderRadius: "10px 10px 0px 0px",

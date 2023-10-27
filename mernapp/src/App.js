@@ -27,32 +27,32 @@ function App() {
       <div>
         <CartProvider>
           <Routes>
-            <Route exact path="/" element={<FlashScreen />} />
-            <Route exact path="/Home" element={<Home />} />
-            <Route exact path="/Login" element={<Login />} />
-            <Route exact path="/CreateUser" element={<Signup />} />
-            <Route exact path="/Otp" element={<OTP />} />
-            <Route exact path="/Paymentpage/:name" element={<Payment />} />
-            <Route exact path="/Paymentpage2/:name" element={<Payment1 />} />
-            <Route exact path="/Bidding/:name" element={<Bidding />} />
+            <Route exact path="/" element={<FlashScreen key={1} />} key={1} />
+            <Route exact path="/Home" element={<Home key={2} />} key={2} />
+            <Route exact path="/Login" element={<Login key={3} />} key={3} />
+            <Route exact path="/CreateUser" element={<Signup key={4} />} key={4} />
+            <Route exact path="/Otp" element={<OTP key={5} />} key={5} />
+            <Route exact path="/Paymentpage/:name" element={<Payment key={6} />} key={6} />
+            <Route exact path="/Paymentpage2/:name" element={<Payment1 key={7} />} key={7} />
+            <Route exact path="/Bidding/:name" element={<Bidding key={8} />} key={8} />
             <Route
               exact
               path="/Orderdetails/:name"
-              element={<Orderdetails />}
-            />
-            <Route path="/Productdetail/:name" element={<Productdetails />} />
+              element={<Orderdetails key={9} />}
+              key={9} />
+            <Route path="/Productdetail/:name" element={<Productdetails key={10} />} key={10} />
             <Route
               exact
               path="/Biddingpopup/:name"
-              element={<Biddingpopup />}
-            />
+              element={<Biddingpopup key={11} />}
+              key={11} />
             <Route
               exact
               path="/OrderPlacement/:name"
-              element={<OrderPlacement />}
-            />
-            <Route exact path="/Profile" element={<Profile />} />
-            <Route exact path="/Cart" element={<Cart />} />
+              element={<OrderPlacement key={12} />}
+              key={12} />
+            <Route exact path="/Profile" element={<Profile key={13} />} key={13} />
+            <Route exact path="/Cart" element={<Cart key={14} />} key={14} />
           </Routes>
         </CartProvider>
       </div>

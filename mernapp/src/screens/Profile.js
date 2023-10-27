@@ -75,7 +75,7 @@ const Profile = () => {
               sx={{ width: "90px", height: "90px", background: "#8c5ce3" }}
             >
               <img
-                className=""
+
                 alt=""
                 src="/face-fill0-wght400-grad0-opsz48-1.svg"
               />

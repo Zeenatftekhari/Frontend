@@ -5,6 +5,7 @@ import Card from "../components/Card";
 import { getUserByNumber } from "../services/getUser/getuserinfo";
 import SwipeableTextMobileStepper from "../components/Carousel";
 import { Box, Grid } from "@mui/material";
+import CustomCard from "../components/Card";
 
 // const homeStyle = {
 //   width: "375px",
@@ -28,7 +29,6 @@ const pathImageStyle = {
 export default function Home() {
   const [grocery_category, setGroceryCat] = useState([]);
   const [grocery_items, setGroceryItems] = useState([]);
-  const [prodIndex, setProductIndex] = useState("")
   const [userInfo, setUserInfo] = useState("");
   const [search, setSearch] = useState("");
   let userLoginInfo2 = JSON.parse(localStorage.getItem("userInfo2"));
@@ -96,7 +96,6 @@ export default function Home() {
           search={search}
           searchProduct={searchProductByName}
         />
-
         <SwipeableTextMobileStepper />
       </div>
       <Grid container p={2}>
@@ -104,7 +103,7 @@ export default function Home() {
           grocery_category.map((data, ind) => {
             return (
               <Grid item xs={12} key={data.id}>
-                <div className="">{data.grocery_category}</div>
+                <div>{data.grocery_category}</div>
                 {/* <hr
                   id="hr-success"
                   style={{
@@ -128,7 +127,7 @@ export default function Home() {
                           className="col-12 col-md-6 col-lg-3 p-2"
                           key={filterItems.id}
                         >
-                          <Card
+                          <CustomCard
                             foodName={filterItems.name}
                             options1={filterItems.options[0]}
                             item={filterItems}

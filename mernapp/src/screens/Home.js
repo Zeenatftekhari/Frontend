@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
+import axios from "axios";
 import { getUserByNumber } from "../services/getUser/getuserinfo";
 import SwipeableTextMobileStepper from "../components/Carousel";
 import { Box, Grid } from "@mui/material";
@@ -35,16 +36,20 @@ export default function Home() {
   let mobileNumber = userLoginInfo2?.mobileNumber;
   const loadGroceryItems = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/GroceryData", {
+      //console.log  ("sucess")
+      const {data} = await axios.post("http://localhost:5000/api/GroceryData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      if (!response.ok) {
+      //console.log (response.data,"fetched grocery items")
+      console.log(data,data.grocery_items, "sucessfully fetched data")
+      if (data.error) {
         throw new Error("Failed to fetch data");
       }
-      const data = await response.json();
+      //const data = await response.json();
+     
       setGroceryItems(data.grocery_items);
       setGroceryCat(data.grocery_category);
     } catch (error) {
